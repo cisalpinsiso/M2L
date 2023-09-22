@@ -51,6 +51,43 @@ app.get('/api/articles', (req, res) => {
     res.send(articles);
 });
 
+app.delete('/api/articles/:id', (req, res) => {
+    const id = req.params.id;
+    pool.query('DELETE FROM articles WHERE id = ?', [id], (err, rows) => {
+        if (err) {
+            res.send({ 'error': err });
+        } else {
+            res.send({ 'message': 'success' });
+        }
+    });
+});
+
+app.post('/api/articles', (req, res) => {
+    const titre = req.body.titre;
+    const contenu = req.body.contenu;
+    const id = req.session.user.id;
+    pool.query('INSERT INTO articles (titre, contenu, id_utilisateur) VALUES (?, ?, ?)', [titre, contenu, id], (err, rows) => {
+        if (err) {
+            res.send({ 'error': err });
+        } else {
+            res.send({ 'message': 'success' });
+        }
+    });
+});
+
+const annonces = [
+    {
+        'id': '123',
+        'nom': 'annonce 1',
+        'contenu': 'description 1',
+        'auteur': 'Auteur'
+    }
+]
+
+app.get('/api/annonces', (req, res) => {
+    res.send(annonces);
+});
+
 app.post('/api/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
