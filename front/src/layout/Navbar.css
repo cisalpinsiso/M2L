@@ -1,0 +1,25 @@
+nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 20%;
+    height: 750px;
+    background-color: white;
+    padding: 10px 10px 50px 10px;
+
+}
+.topnav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+   gap: 20px;
+}
+.topnav button{
+    width: 100px;
+}
+.bottomnav{
+    display: flex;
+    flex-direction: column;
+}
