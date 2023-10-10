@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./Navbar.css";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = React.useState(false);
@@ -25,14 +26,18 @@ function Navbar() {
         <div className="topnav">
           <img src="src/assets/Logo2.png" className="" alt="" />
 
-          <button type="button" class="btn btn-secondary">
-            <i class="bi bi-house"></i>
-            Accueil
-          </button>
-          <button type="button" class="btn btn-secondary">
-            <i class="bi bi-cart"></i>
-            Boutique
-          </button>
+          <NavLink to="/">
+            <button class="btn btn-secondary">
+              <i class="bi bi-house"></i>
+              Accueil
+            </button>
+          </NavLink>
+          <NavLink to="/boutique">
+            <button class="btn btn-secondary">
+              <i class="bi bi-cart"></i>
+              Boutique
+            </button>
+          </NavLink>
         </div>
 
         <div className="bottomnav">
