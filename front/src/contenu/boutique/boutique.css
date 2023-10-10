@@ -1,0 +1,18 @@
+.deproduits {
+  background-color: #f8c92a;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 200px;
+}
+.deproduits img{
+    width: auto;
+    height: 250px;
+}
+.firstblock {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
