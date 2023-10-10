@@ -3,25 +3,52 @@ nav {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 20%;
-  height: 750px;
   background-color: white;
-  padding: 10px 10px 50px 10px;
+  padding: 50px;
+  height: 100vh;
+  display: flex;
 }
+
+nav .btn {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
 .topnav {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 200px;
   gap: 10px;
+  flex-grow: 1;
 }
-.topnav button {
-  width: 150px;
+nav button, nav a {
+  width: 100%;
+  text-decoration: none;
+}
+
+nav a.active:hover button {
+  background-color: var(--bs-gray-300) !important;
+}
+
+nav a.active {
+  color: black !important;
+}
+
+nav a.active button {
+  background-color: var(--bs-gray-300);
+  border-radius: 0.5rem;
+}
+
+.topnav img {
+  max-width: 170px;
 }
 .bottomnav {
   display: flex;
   gap: 10px;
   flex-direction: column;
+  width: 100%;
 }
 .bottomnav button{
     border-radius: 20px;

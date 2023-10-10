@@ -5,10 +5,12 @@ import { Routes, Route } from "react-router-dom";
 
 function Contenu() {
     return (
-        <Routes>
-          <Route path="/" element={<Accueil />} />
-          <Route path="/boutique" element={<Boutique />} />
-        </Routes>
+        <div className="contenu">
+          <Routes>
+            <Route path="/" element={<Accueil />} />
+            <Route path="/boutique" element={<Boutique />} />
+          </Routes>
+        </div>
       );
 }
 

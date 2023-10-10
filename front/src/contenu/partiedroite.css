@@ -1,3 +1,5 @@
-body{
-    background-color: #F3F4F6;
+.contenu {
+    padding: 50px;
+    background-color: var(--bs-gray-200);
+    flex-grow: 1;
 }
