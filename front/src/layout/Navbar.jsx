@@ -1,9 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import LogoutIcon from "@mui/icons-material/Logout";
 import "./Navbar.css";
 
 function Navbar() {
@@ -30,37 +25,37 @@ function Navbar() {
         <div className="topnav">
           <img src="src/assets/Logo2.png" className="" alt="" />
 
-          <button class="btn btn-primary" type="submit">
+          <button className="btn btn-primary" type="submit">
             Button
           </button>
-          <Button variant="outlined">Boutique</Button>
+          <button variant="outlined">Boutique</button>
         </div>
 
         <div className="bottomnav">
-          <Button onClick={handleOpen}>{user}</Button>
-          <Modal
+          <button onClick={handleOpen}>{user}</button>
+          <div className="modal"
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
+            <div sx={style}>
+              <h6 id="modal-modal-title" variant="h6" component="h2">
                 {user}
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              </h6>
+              <p id="modal-modal-description" sx={{ mt: 2 }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
                 rem reiciendis fuga sed ut tempore minus, dignissimos,
                 praesentium voluptatibus natus magni cumque laborum nesciunt
                 fugit nam. Veniam voluptates ut qui?
-              </Typography>
-            </Box>
-          </Modal>
+              </p>
+            </div>
+          </div>
 
-          <Button variant="contained">
-            {" "}
-            <LogoutIcon /> Deconnexion
-          </Button>
+          <button variant="contained">
+          <i className="bi bi-0-square"></i>
+ Deconnexion
+          </button>
         </div>
       </nav>
     </>
