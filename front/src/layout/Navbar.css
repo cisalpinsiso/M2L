@@ -53,3 +53,14 @@ nav a.active button {
 .bottomnav button{
     border-radius: 20px;
 }
+
+
+.btn:hover{
+  background-color: var(--bs-gray-100) !important;
+  color: #000000 !important;
+  border: 1px solid #020202;
+}
+
+.btn{
+  border: 1px solid #000000;
+}
