@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const uuid = require('uuid');
 
 const app = express();
 app.use(express.json());
@@ -37,7 +38,7 @@ app.get('/api/user', (req, res) => {
     }
 });
 
-const articles = [
+const produits = [
     {
         'id': '123',
         'nom': 'article 1',
@@ -47,13 +48,13 @@ const articles = [
     }
 ]
 
-app.get('/api/articles', (req, res) => {
-    res.send(articles);
+app.get('/api/produits', (req, res) => {
+    res.send(produits);
 });
 
-app.delete('/api/articles/:id', (req, res) => {
+app.delete('/api/produits/:id', (req, res) => {
     const id = req.params.id;
-    pool.query('DELETE FROM articles WHERE id = ?', [id], (err, rows) => {
+    pool.query('DELETE FROM produits WHERE id = ?', [id], (err, rows) => {
         if (err) {
             res.send({ 'error': err });
         } else {
@@ -62,11 +63,13 @@ app.delete('/api/articles/:id', (req, res) => {
     });
 });
 
-app.post('/api/articles', (req, res) => {
-    const titre = req.body.titre;
-    const contenu = req.body.contenu;
-    const id = req.session.user.id;
-    pool.query('INSERT INTO articles (titre, contenu, id_utilisateur) VALUES (?, ?, ?)', [titre, contenu, id], (err, rows) => {
+app.post('/api/produits', (req, res) => {
+    const nom = req.body.nom;
+    const quantite = req.body.quantite;
+    const prix = req.body.prix;
+    const description = req.body.description;
+    const id = uuid.v4();
+    pool.query('INSERT INTO produits (nom, quantite, prix, description, id) VALUES (?, ?, ?, ?, ?)', [nom, quantite, prix, description, id], (err, rows) => {
         if (err) {
             res.send({ 'error': err });
         } else {

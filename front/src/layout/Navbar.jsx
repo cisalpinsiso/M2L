@@ -3,11 +3,12 @@ import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import Modal from "../components/Modal";
 
+
 function Navbar() {
   const [openLogin, setOpenLogin] = React.useState(false);
   const [openRegister, setOpenRegister] = React.useState(false);
 
-  const [username, setUsername] = React.useState(""); // [variable, fonction de mise à jour de la variable
+  const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
