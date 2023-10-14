@@ -1,0 +1,17 @@
+.packcard{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    
+
+
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 190px;
+}
+.card img{
+    width: 20vh;
+    height: auto;
+}
