@@ -1,0 +1,11 @@
+.btnAccueil{
+    background-color: #f8c92a; 
+    color: black;
+    border: none;
+}
+
+.btnAccueil:hover{
+    background-color: #fed758 !important; 
+    color: black !important;
+    border: none !important;
+}
