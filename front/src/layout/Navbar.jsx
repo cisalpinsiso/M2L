@@ -35,13 +35,13 @@ function Navbar() {
 
           <NavLink to="/">
             <button class="btn">
-              <i class="bi bi-house"></i>
+              <i class="bi bi-house-fill"></i>
               Accueil
             </button>
           </NavLink>
           <NavLink to="/boutique">
             <button class="btn">
-              <i class="bi bi-cart"></i>
+              <i class="bi bi-cart-fill"></i>
               Boutique
             </button>
           </NavLink>

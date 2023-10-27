@@ -26,6 +26,7 @@ nav .btn {
 nav button, nav a {
   width: 100%;
   text-decoration: none;
+  font-size: 18px !important;
 }
 
 nav a.active:hover button {
@@ -37,12 +38,13 @@ nav a.active {
 }
 
 nav a.active button {
-  background-color: var(--bs-gray-300);
+  background-color: var(--bs-gray-200);
   border-radius: 0.5rem;
 }
 
 .topnav img {
   max-width: 170px;
+  margin-bottom: 2rem;
 }
 .bottomnav {
   display: flex;
@@ -53,8 +55,10 @@ nav a.active button {
 .bottomnav button{
     border-radius: 20px;
 }
-
-
+.topnav button {
+  justify-content: left;
+  padding-left: 1rem;
+}
 .btn:hover{
   background-color: var(--bs-gray-100) !important;
   color: #000000 !important;

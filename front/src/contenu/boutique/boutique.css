@@ -1,27 +1,38 @@
 .deproduits {
   background-color: #f8c92a;
-  padding: 20px;
-  border-radius: 20px;
+  padding: 2rem;
+  border-radius: 1rem;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  height: 150px;
 }
 .deproduits img {
   width: auto;
   height: 250px;
+  position: absolute;
+  right: 5rem;
+}
+.deproduits a {
+  color: black;
 }
 .firstblock {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
+.bi-cart-fill {
+  font-size: 20px;
+}
+h3 {
+  margin-bottom: 1rem !important;
+}
+form {
+  margin-top: 1rem;
+}
 form{
   display: flex;
-  
+  margin-top: 1.5remn;
   justify-content: space-around;
   gap: 10px;
-  padding: 20px;
   align-items: center;
   width: 100%;
 }
