@@ -5,10 +5,11 @@
 
 
 }
-.font-custom {
-    font-size: 10px;
-    width: 70%;
-    text-align: justify;
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 190px;
 }
 .card img{
     width: 20vh;

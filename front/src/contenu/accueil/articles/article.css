@@ -1,0 +1,48 @@
+
+
+.article-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer; 
+}
+
+.card-summary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); 
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: flex-end; 
+  overflow: hidden; 
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.summary-text {
+  font-size: 1rem; 
+  line-height: 1.5; 
+  margin: 0; 
+  animation: scroll-up 12s linear infinite; 
+}
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-250%); 
+  }
+}
+
+.article-card:hover .card-summary {
+  opacity: 1;
+}
+
+.article-card .card-body.hover {
+  opacity: 0.5;
+}
