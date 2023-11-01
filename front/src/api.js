@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = {
-  register(email, password) {
-    return axios.post('/api/register', { email, password });
+  register(nom, prenom, email, password, confirm) {
+    return axios.post('/api/register', { nom, prenom, email, password, confirm });
   },
 
   login(email, password) {
@@ -11,6 +11,10 @@ const api = {
 
   logout() {
     return axios.get('/api/logout');
+  },
+
+  getUser() {
+    return axios.get('/api/user');
   },
 
   getProduits() {

@@ -10,7 +10,6 @@ app.use(session({
     secret: 'dsof82445qs*2E',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
 }))
 
 const pool = mysql.createPool({
@@ -32,9 +31,9 @@ app.get('/api', (req, res) => {
 
 app.get('/api/user', (req, res) => {
     if (req.session.user) {
-        res.send(req.session.user);
+        res.send({ 'success': true, 'user': req.session.user });
     } else {
-        res.send({ 'message': 'error' });
+        res.send({ 'success': false, 'message': 'Non connecté' });
     }
 });
 
@@ -56,9 +55,9 @@ app.delete('/api/produits/:id', (req, res) => {
     const id = req.params.id;
     pool.query('DELETE FROM produits WHERE id = ?', [id], (err, rows) => {
         if (err) {
-            res.send({ 'error': err });
+            res.send({ 'success': false, 'message': err });
         } else {
-            res.send({ 'message': 'success' });
+            res.send({ 'success': true, 'message': 'success' });
         }
     });
 });
@@ -71,9 +70,9 @@ app.post('/api/produits', (req, res) => {
     const id = uuid.v4();
     pool.query('INSERT INTO produits (nom, quantite, prix, description, id) VALUES (?, ?, ?, ?, ?)', [nom, quantite, prix, description, id], (err, rows) => {
         if (err) {
-            res.send({ 'error': err });
+            res.send({ 'success': false, 'message': err });
         } else {
-            res.send({ 'message': 'success' });
+            res.send({ 'success': true, 'message': 'success' });
         }
     });
 });
@@ -94,21 +93,36 @@ app.get('/api/annonces', (req, res) => {
 app.post('/api/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    pool.query('SELECT * FROM utilisateurs WHERE email = ?', [email], (err, rows) => {
+
+    // check all fields are filled
+    if (!email || !password) {
+        res.send({ 'success': false, 'message': 'Veuillez remplir tous les champs' });
+        return;
+    };
+
+    pool.query('SELECT * FROM utilisateur WHERE email = ?', [email], (err, rows) => {
         if (err) {
             res.send({ 'error': err });
         } else {
             if (rows.length > 0) {
                 bcrypt.compare(password, rows[0].mdp, (err, result) => {
                     if (result) {
-                        req.session.user = rows;
-                        res.send({ 'message': 'success' });
+                        const user = rows[0];
+                        req.session.user = {
+                            'id': user.id,
+                            'nom': user.nom,
+                            'prenom': user.prenom,
+                            'email': user.email,
+                            'fonction': user.fonction
+                        }
+                        console.log(req.session.user);
+                        res.send({ 'success': true, 'message': 'success' });
                     } else {
-                        res.send({ 'message': 'error' });
+                        res.send({ 'success': false, 'message': 'Mot de passe ou email incorrect' });
                     }
                 });
             } else {
-                res.send({ 'message': 'error' });
+                res.send({ 'success': false, 'message': 'Mot de passe ou email incorrect' });
             }
         }
     });
@@ -116,7 +130,7 @@ app.post('/api/login', (req, res) => {
 
 app.get('/api/logout', (req, res) => {
     req.session.destroy();
-    res.send({ 'message': 'success' });
+    res.send({ 'success': true, 'message': 'success' });
 });
 
 app.post('/api/register', (req, res) => {
@@ -126,23 +140,51 @@ app.post('/api/register', (req, res) => {
     const password = req.body.password;
     const confirm = req.body.confirm;
 
-    if (password === confirm) {
-        bcrypt.hash(password, 10, (err, hash) => {
-            if (err) {
-                res.send({ 'error': err });
-            } else {
-                pool.query('INSERT INTO utilisateurs (nom, prenom, email, mdp) VALUES (?, ?, ?, ?)', [nom, prenom, email, hash], (err, rows) => {
-                    if (err) {
-                        res.send({ 'error': err });
-                    } else {
-                        res.send({ 'message': 'success' });
+    // check all fields are filled
+    if (!nom || !prenom || !email || !password || !confirm) {
+        res.send({ 'success': false, 'message': 'Veuillez remplir tous les champs' });
+        return;
+    };
+
+    // check email is valid with regex
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        res.send({ 'success': false, 'message': 'Email invalide' });
+        return;
+    };
+
+    // check password length
+    if (password.length < 8) {
+        res.send({ 'success': false, 'message': 'Mot de passe trop court' });
+        return;
+    };
+
+    // check password and confirm password match
+    if (password !== confirm) {
+        res.send({ 'success': false, 'message': 'Les mots de passe ne correspondent pas' });
+        return;
+    };
+
+    bcrypt.hash(password, 10, (err, hash) => {
+        if (err) {
+            res.send({ 'success': false, 'message': err });
+        } else {
+            pool.query('INSERT INTO utilisateur (nom, prenom, email, mdp, fonction) VALUES (?, ?, ?, ?, ?)', [nom, prenom, email, hash, "joueur"], (err, rows) => {
+                if (err) {
+                    res.send({ 'success': false, 'message': err });
+                } else {
+                    const user = rows[0];
+                    req.session.user = {
+                        'id': user.id,
+                        'nom': user.nom,
+                        'prenom': user.prenom,
+                        'email': user.email,
+                        'fonction': user.fonction
                     }
-                });
-            }
-        });
-    } else {
-        res.send({ 'message': 'error' });
-    }
+                    res.send({ 'success': true, 'message': 'success' });
+                }
+            });
+        }
+    });
 });
 
 app.listen(3000, () => {

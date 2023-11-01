@@ -2,31 +2,92 @@ import * as React from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import Modal from "../components/Modal";
+import api from "../api";
+import { useEffect } from "react";
 
 
-function Navbar() {
+function Navbar(props) {
   const [openLogin, setOpenLogin] = React.useState(false);
   const [openRegister, setOpenRegister] = React.useState(false);
 
-  const [username, setUsername] = React.useState("");
+  const [nom, setNom] = React.useState("");
+  const [prenom, setPrenom] = React.useState("")
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [passwordConfirm, setPasswordConfirm] = React.useState("");
 
-  let user = null;
+  const [error, setError] = React.useState("");
+
+  useEffect(() => {
+    setError("");
+    setNom("");
+    setPrenom("");
+    setEmail("");
+    setPassword("");
+    setPasswordConfirm("");
+  }, [openLogin, openRegister]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    api.login(email, password).then((res) => {
+      if (res.data.success) {
+        api.getUser().then((res) => {
+          if (res.data.success) {
+            props.setUser(res.data.user);
+            setOpenLogin(false);
+          }
+        })
+      } else {
+        setError(res.data.message);
+      }
+    });
+  }
+
+  const handleLogout = () => {
+    api.logout().then((res) => {
+      if (res.data.success) {
+        props.setUser(null);
+      }
+    })
+  }
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    api.register(nom, prenom, email, password, passwordConfirm).then((res) => {
+      if (res.data.success) {
+        api.getUser().then((res) => {
+          if (res.data.success) {
+            props.setUser(res.data.user);
+            setOpenRegister(false);
+          }
+        })
+      } else {
+        setError(res.data.message);
+      }
+    });
+  }
 
   return (
     <>
       <Modal title="Connexion" show={openLogin} onClose={() => setOpenLogin(false)}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control mb-2" />
-        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control mb-2" />
-        <button type="button" class="btn btn-primary">Connexion</button>
+        <form onSubmit={handleLogin}>
+          <input type="email" placeholder="Email" className="form-control" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="password" placeholder="Mot de passe" className="form-control" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <button type="submit" class="btn btn-primary">Connexion</button>
+          {error && <div className="alert alert-danger w-100 mb-0">{error}</div>}
+        </form>
       </Modal>
 
       <Modal title="Inscription" show={openRegister} onClose={() => setOpenRegister(false)}>
-        <input type="text" placeholder="Nom d'utilisateur" value={username} onChange={(e) => setUsername(e.target.value)} className="form-control mb-2" />
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control mb-2" />
-        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control mb-2" />
-        <button type="button" class="btn btn-primary">Inscription</button>
+        <form onSubmit={handleRegister}>
+          <input type="text" placeholder="Nom" className="form-control" name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
+          <input type="text" placeholder="Prénom" className="form-control" name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+          <input type="email" placeholder="Email" className="form-control" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="password" placeholder="Mot de passe" className="form-control" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" placeholder="Confirmer le mot de passe" className="form-control" name="confirm" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
+          <button type="submit" class="btn btn-primary">Inscription</button>
+          {error && <div className="alert alert-danger w-100 mb-0">{error}</div>}
+        </form>
       </Modal>
 
       <nav>
@@ -48,18 +109,18 @@ function Navbar() {
         </div>
 
         <div className="bottomnav">
-          {user ?
+          {props.user ?
             <>
               <button type="button" class="btn btn-secondary">
                 <i class="bi bi-person-fill"></i>
                 Mon compte
               </button>
-              <button type="button" class="btn btn-warning">
+              <button type="button" class="btn btn-warning" onClick={handleLogout}>
                 <i class="bi bi-box-arrow-right" color="white"></i>
                 Deconnexion
               </button>
             </>
-          :
+            :
             <>
               <button type="button" class="btn btn-secondary" onClick={() => setOpenLogin(true)}>
                 <i class="bi bi-box-arrow-in-right"></i>
@@ -70,7 +131,7 @@ function Navbar() {
                 Inscription
               </button>
             </>
-          } 
+          }
         </div>
       </nav>
     </>
