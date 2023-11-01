@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./boutique.css";
-import Produit from "./produit";
+import Produit from "./Produit";
 
-function Boutique() {
+function Boutique(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const searchRef = useRef(null);
@@ -57,7 +57,7 @@ function Boutique() {
     <>
       <div className="firstblock">
         <h3>
-          Bonjour, <b>Hassan</b>
+          Bonjour, <b>{props.user ? props.user.nom : "utilisateur"}</b>
         </h3>
         <i className="bi bi-cart-fill"></i>
       </div>

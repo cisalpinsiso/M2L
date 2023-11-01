@@ -1,5 +1,6 @@
 import React from "react";
-import "./Produit.css";
+import "./produit.css";
+
 function produit() {
   let url =
     "https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw088ef24b/images/large/701225660001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit";
