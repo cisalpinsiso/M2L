@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Article.css';
+import './article.css';
 
 const Article = ({ image, title, date }) => {
   const [hover, setHover] = useState(false);
@@ -8,11 +8,11 @@ const Article = ({ image, title, date }) => {
 
   return (
     <div 
-      className="card article-card" 
+      className="card article-card flex-grow-1" 
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <img src={image} className="card-img-top" alt={title} />
+      <img src={image} className="img-fluid w-25" alt={title} />
       {hover && (
         <div className="card-summary">
           <p className="summary-text">{summaryText}</p>

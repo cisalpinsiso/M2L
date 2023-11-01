@@ -27,7 +27,7 @@ function Carrousel() {
 
 
   return (
-    <div className="container mt-5 carrou">
+    <div className="carrou">
       <div id="myCarousel" className="carousel slide">
         <ol className="carousel-indicators">
           {[...Array(totalItems)].map((_, idx) => (
@@ -65,8 +65,8 @@ function Carrousel() {
             >
               <img src={item.src} alt={item.alt} className="d-block w-100" />
               <div className={`carousel-caption ${idx === hoveredSlide ? "show-description" : ""}`}>
-                <h3>{item.alt}</h3>
-                <p>{item.description}</p>
+                <h3 className="text-white">{item.alt}</h3>
+                <p className="text-white">{item.description}</p>
               </div>
             </div>
           ))}

@@ -3,14 +3,14 @@ import "./produit.css";
 
 function Produit(props) {
   return (
-    <div class="card flex-grow-1">
-      <img src={props.image} class="card-img-top" alt="..."></img>
-      <div class="card-body">
-        <h5 class="card-title">{props.nom}</h5>
-        <p class="card-text">
+    <div className="card flex-grow-1">
+      <img src={props.image} className="card-img-top" alt="..."></img>
+      <div className="card-body">
+        <h5 className="card-title">{props.nom}</h5>
+        <p className="card-text">
           {props.description}
         </p>
-        <a href="#" class="btn btn-primary" onClick={() => props.ajoutPanier()}>
+        <a href="#" className="btn btn-primary" onClick={() => props.ajoutPanier()}>
           Ajouter au panier
         </a>
       </div>

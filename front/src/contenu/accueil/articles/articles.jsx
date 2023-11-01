@@ -19,14 +19,10 @@ const Articles = () => {
   ];
 
   return (
-    <div className="container">
-      <div className="row">
-        {articlesData.map((article) => (
-          <div key={article.id} className="col-md-4 mb-4">
-            <Article image={article.image} title={article.title} date={article.date} />
-          </div>
-        ))}
-      </div>
+    <div className="articles d-flex mt-4 gap-4">
+      {articlesData.map((article) => (
+        <Article image={article.image} title={article.title} date={article.date} />
+      ))}
     </div>
   );
 };

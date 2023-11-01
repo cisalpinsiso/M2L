@@ -105,12 +105,12 @@ function Boutique(props) {
         </i>
       </div>
       <div className={`offcanvas-backdrop fade ${showCart ? "show" : "pe-none"}`}></div>
-      <div class={`offcanvas offcanvas-end ${showCart ? "show" : "hiding"} z-index-1`} tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Panier</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setShowCart(false)}></button>
+      <div className={`offcanvas offcanvas-end ${showCart ? "show" : "hiding"} z-index-1`} tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasExampleLabel">Panier</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setShowCart(false)}></button>
         </div>
-        <div class="offcanvas-body">
+        <div className="offcanvas-body">
           {props.panier.length === 0 ?
             <div className="text-center">Votre panier est vide</div>
             :
@@ -120,19 +120,19 @@ function Boutique(props) {
                   <li className="list-group-item d-flex justify-content-between align-items-center">
                     <img src={product.image} alt={product.nom} style={{ width: "24px", marginRight: "10px" }} />
                     {product.nom}
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      <button type="button" class="btn" onClick={() => retirerPanier(product)}>
-                        <i class="bi bi-dash-circle-fill"></i>
+                    <div className="btn-group" role="group" aria-label="Basic example">
+                      <button type="button" className="btn" onClick={() => retirerPanier(product)}>
+                        <i className="bi bi-dash-circle-fill"></i>
                       </button>
-                      <button type="button" class="btn" onClick={() => ajoutPanier(product)}>
-                        <i class="bi bi-plus-circle-fill"></i>
+                      <button type="button" className="btn" onClick={() => ajoutPanier(product)}>
+                        <i className="bi bi-plus-circle-fill"></i>
                       </button>
                     </div>
                     <span className="badge bg-primary rounded-pill">{product.quantity}</span>
                   </li>
                 ))}
               </ul>
-              <button type="button" class="btn btn-primary mt-3 w-100">Commander</button>
+              <button type="button" className="btn btn-primary mt-3 w-100">Commander</button>
             </div>
           }
         </div>
