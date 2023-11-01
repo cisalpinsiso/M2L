@@ -39,3 +39,33 @@ form{
 form button {
   width: 100%;
 }
+
+.cart {
+  cursor: pointer;
+}
+
+.cart:hover {
+  opacity: 0.8;
+}
+
+.cart span {
+  font-size: 12px;
+  top: 1rem;
+  right: 10px;
+}
+
+.rounded-pill {
+  width: 30px;
+}
+
+.list-group {
+  box-shadow: none;
+}
+
+.card {
+  width: 15%;
+}
+
+.list-group {
+  max-height: 800px;
+}

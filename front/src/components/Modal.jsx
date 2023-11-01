@@ -1,7 +1,7 @@
 const Modal = ({ title, show, onClose, children }) => {
   return (
     <>
-      <div className={`modal-backdrop fade ${show ? 'show' : ''}`} style={{ display: show ? 'block' : 'none' }}></div>
+      <div className={`modal-backdrop fade ${show ? 'show' : 'pe-none'}`}></div>
       <div className={`modal ${show ? 'show' : ''}`} style={{ display: show ? 'block' : 'none' }} tabIndex="-1" role="dialog">
 
         <div className="modal-dialog" role="document">

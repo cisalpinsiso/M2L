@@ -19,7 +19,7 @@ ul {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-ul li {
+form ul li {
   display: flex;
   align-items: center;
   padding: 12px 24px;
@@ -27,12 +27,12 @@ ul li {
   color: #333;
 }
 
-ul li:hover {
+form ul li:hover {
   background-color: #e9e9e9;
   cursor: pointer;
 }
 
-ul li img {
+form ul li img {
   max-width: 24px;
   margin-right: 10px;
 }
