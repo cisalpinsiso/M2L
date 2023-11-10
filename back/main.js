@@ -3,6 +3,9 @@ const mysql = require('mysql2');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -13,9 +16,9 @@ app.use(session({
 }))
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    database: 'm2l',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     maxIdle: 10,
@@ -115,7 +118,6 @@ app.post('/api/login', (req, res) => {
                             'email': user.email,
                             'fonction': user.fonction
                         }
-                        console.log(req.session.user);
                         res.send({ 'success': true, 'message': 'success' });
                     } else {
                         res.send({ 'success': false, 'message': 'Mot de passe ou email incorrect' });
@@ -168,19 +170,26 @@ app.post('/api/register', (req, res) => {
         if (err) {
             res.send({ 'success': false, 'message': err });
         } else {
-            pool.query('INSERT INTO utilisateur (nom, prenom, email, mdp, fonction) VALUES (?, ?, ?, ?, ?)', [nom, prenom, email, hash, "joueur"], (err, rows) => {
+            pool.query('INSERT INTO utilisateur (nom, prenom, email, mdp, fonction) VALUES (?, ?, ?, ?, ?)', 
+            [nom, prenom, email, hash, "joueur"], (err, result) => {
                 if (err) {
                     res.send({ 'success': false, 'message': err });
                 } else {
-                    const user = rows[0];
-                    req.session.user = {
-                        'id': user.id,
-                        'nom': user.nom,
-                        'prenom': user.prenom,
-                        'email': user.email,
-                        'fonction': user.fonction
-                    }
-                    res.send({ 'success': true, 'message': 'success' });
+                    pool.query('SELECT * FROM utilisateur WHERE email = ?', [email], (err, rows) => {
+                        if (err) {
+                            res.send({ 'success': false, 'message': err });
+                        } else {
+                            const user = rows[0];
+                            req.session.user = {
+                                'id': user.id,
+                                'nom': user.nom,
+                                'prenom': user.prenom,
+                                'email': user.email,
+                                'fonction': user.fonction
+                            };
+                            res.send({ 'success': true, 'message': 'User successfully created' });
+                        }
+                    });
                 }
             });
         }

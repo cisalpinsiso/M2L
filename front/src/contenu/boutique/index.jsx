@@ -132,7 +132,11 @@ function Boutique(props) {
                   </li>
                 ))}
               </ul>
-              <button type="button" className="btn btn-primary mt-3 w-100">Commander</button>
+              {props.user ?
+                <button type="button" className="btn btn-primary mt-3 w-100">Commander</button>
+              :
+                <div className="text-center mt-3">Veuillez vous connecter pour commander</div>
+              }
             </div>
           }
         </div>
