@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import Modal from "../components/Modal";
 import api from "../api";
 import { useEffect } from "react";
+import MonCompte from "../contenu/monCompte/monCompte.jsx"; 
 
 
 function Navbar(props) {
@@ -67,6 +68,10 @@ function Navbar(props) {
     });
   }
 
+  const handleMonCompteClick = () => {
+    props.toggleNavbar();
+  }
+
   return (
     <>
       <Modal title="Connexion" show={openLogin} onClose={() => setOpenLogin(false)}>
@@ -111,7 +116,7 @@ function Navbar(props) {
         <div className="bottomnav">
           {props.user ?
             <>
-              <button type="button" className="btn btn-secondary">
+              <button type="button" className="btn btn-secondary" onClick={handleMonCompteClick}>
                 <i className="bi bi-person-fill"></i>
                 Mon compte
               </button>
