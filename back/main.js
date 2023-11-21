@@ -40,18 +40,14 @@ app.get('/api/user', (req, res) => {
     }
 });
 
-const produits = [
-    {
-        'id': '123',
-        'nom': 'article 1',
-        'quantite': '10',
-        'prix': '100',
-        'description': 'description 1'
-    }
-]
-
 app.get('/api/produits', (req, res) => {
-    res.send(produits);
+    pool.query('SELECT * FROM stock', (err, rows) => {
+        if (err) {
+            res.send({ 'error': err });
+        } else {
+            res.send(rows.slice(0, 20));
+        }
+    });
 });
 
 app.delete('/api/produits/:id', (req, res) => {

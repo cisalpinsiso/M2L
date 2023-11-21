@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./boutique.css";
 import Produit from "./Produit";
+import api from "../../api";
 
 function Boutique(props) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -9,32 +10,15 @@ function Boutique(props) {
 
   const searchRef = useRef(null);
 
-  const products = [
-    {
-      id: 1,
-      nom: "Produit A",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus.",
-      image: "https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw088ef24b/images/large/701225660001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit",
-    },
-    {
-      id: 2,
-      nom: "Produit B",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus.",
-      image: "https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw088ef24b/images/large/701225660001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit",
-    },
-    {
-      id: 3,
-      nom: "Produit C",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus.",
-      image: "https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw088ef24b/images/large/701225660001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit",
-    },
-    {
-      id: 4,
-      nom: "Produit D",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus.",
-      image: "https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw088ef24b/images/large/701225660001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    api.getProduits().then((response) => {
+      if (response.data) {
+        setProducts(response.data);
+      }
+    });
+  }, []);
 
   const ajoutPanier = (productToAdd) => {
     const existingProduct = props.panier.find(p => p.id === productToAdd.id);
