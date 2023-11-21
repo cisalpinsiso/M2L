@@ -4,9 +4,10 @@ import Produit from "./Produit";
 import api from "../../api";
 
 function Boutique(props) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
   const [showCart, setShowCart] = useState(false);
+
+  const [filterSelection, setFilterSelection] = useState("all");
+  const [filterText, setFilterText] = useState("");
 
   const searchRef = useRef(null);
 
@@ -46,33 +47,6 @@ function Boutique(props) {
         const newPanier = props.panier.filter(p => p.id !== productToRemove.id);
         props.setPanier(newPanier);
       }
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleSearchChange = (event) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-
-    if (value) {
-      const matchedSuggestions = products.filter((product) =>
-        product.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setSuggestions(matchedSuggestions);
-    } else {
-      setSuggestions([]);
-    }
-  };
-
-  const handleClickOutside = (event) => {
-    if (searchRef.current && !searchRef.current.contains(event.target)) {
-      setSuggestions([]);
     }
   };
 
@@ -148,35 +122,32 @@ function Boutique(props) {
               placeholder="Rechercher un produit ..."
               aria-label="Search"
               aria-describedby="basic-addon1"
-              value={searchTerm}
-              onChange={handleSearchChange}
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
             />
-            <ul>
-              {suggestions.map((product) => (
-                <li key={product.name}>
-                  <img
-                    src={product.img}
-                    alt={product.name}
-                    style={{ width: "24px", marginRight: "10px" }}
-                  />
-                  {product.name}
-                </li>
-              ))}
-            </ul>
             <select
               className="custom-select mr-sm-2 form-control"
-              id="inlineFormCustomSelect"
+              value={filterSelection}
+              onChange={(e) => setFilterSelection(e.target.value)}              
             >
-              <option selected>Choose...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option value="all" selected>Choose...</option>
+              <option value="maillot">Maillots</option>
+              <option value="équipement">Équipements</option>
+              <option value="foot">Football</option>
             </select>
           </div>
         </form>
       </div>
       <div className="d-grid gap-3 produits">
-        {products.map((product) => (
+        {products.filter((product) => {
+          if (filterSelection === "all") {
+            return true;
+          } else {
+            return product.description.toLowerCase().includes(filterSelection.toLowerCase()) || product.nom.toLowerCase().includes(filterSelection.toLowerCase());
+          }
+        }).filter((product) => {
+          return product.nom.toLowerCase().includes(filterText.toLowerCase()) || product.description.toLowerCase().includes(filterText.toLowerCase());
+        }).map((product) => (
           <Produit nom={product.nom} description={product.description} prix={product.prix} image={product.image} id={product.id} ajoutPanier={() => ajoutPanier(product)} />
         ))}
       </div>
