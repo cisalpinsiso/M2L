@@ -175,9 +175,9 @@ function Boutique(props) {
           </div>
         </form>
       </div>
-      <div className="d-flex flex-wrap gap-4">
+      <div className="d-grid gap-3 produits">
         {products.map((product) => (
-          <Produit nom={product.nom} description={product.description} image={product.image} id={product.id} ajoutPanier={() => ajoutPanier(product)} />
+          <Produit nom={product.nom} description={product.description} prix={product.prix} image={product.image} id={product.id} ajoutPanier={() => ajoutPanier(product)} />
         ))}
       </div>
     </>
