@@ -5,10 +5,9 @@ nav {
   align-items: center;
   background-color: white;
   padding: 50px;
-  height: 100vh;
   display: flex;
-  position: sticky;
-  top: 0;
+  height: 100%;
+  width: inherit;
 }
 
 nav .btn {
@@ -69,4 +68,13 @@ nav a.active button {
 
 .btn{
   border: 1px solid #000000;
+}
+
+.nav-wrapper {
+  transition: max-width 0.8s;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 300px;
+  flex-shrink: 0;
 }
