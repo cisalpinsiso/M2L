@@ -1,23 +1,5 @@
-import React from 'react';
-
-function Article({ titre, image, onVoirPlus }) {
-  return (
-    <div className="article">
-      <img src={image} alt={titre} />
-      <h3>{titre}</h3>
-      <button onClick={onVoirPlus}>Voir plus</button>
-    </div>
-  );
-}
-
-export default Article;
-2. Mise à jour du Composant Articles
-Dans votre composant Articles, vous pouvez utiliser le composant Article pour afficher chaque article. Vous allez probablement récupérer les données de vos articles depuis une API ou une base de données.
-
-javascript
-Copy code
 import React, { useState, useEffect } from 'react';
-import Article from './Article';
+import Article from './article';
 
 function Articles() {
   const [articles, setArticles] = useState([]);
