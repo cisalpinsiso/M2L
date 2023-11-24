@@ -1,30 +1,45 @@
 import React from 'react';
-import Article from './article';
 
-const Articles = () => {
-  const articlesData = [
-    {
-      id: 1,
-      image: 'https://img.freepik.com/vecteurs-libre/concept-equipement-sport_1284-13034.jpg?size=338&ext=jpg&ga=GA1.1.386372595.1698451200&semt=ais',
-      title: 'Titre de l\'article 1',
-      date: 'Date 1'
-    },
-    {
-      id: 2,
-      image: "https://img.freepik.com/vecteurs-libre/concept-equipement-sport_1284-13034.jpg?size=338&ext=jpg&ga=GA1.1.386372595.1698451200&semt=ais",
-      title: 'Titre de l\'article 2',
-      date: 'Date 2'
-    },
-    // ... autres articles
-  ];
+function Article({ titre, image, onVoirPlus }) {
+  return (
+    <div className="article">
+      <img src={image} alt={titre} />
+      <h3>{titre}</h3>
+      <button onClick={onVoirPlus}>Voir plus</button>
+    </div>
+  );
+}
+
+export default Article;
+2. Mise à jour du Composant Articles
+Dans votre composant Articles, vous pouvez utiliser le composant Article pour afficher chaque article. Vous allez probablement récupérer les données de vos articles depuis une API ou une base de données.
+
+javascript
+Copy code
+import React, { useState, useEffect } from 'react';
+import Article from './Article';
+
+function Articles() {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    // Ici, vous pouvez appeler votre API pour récupérer les articles
+    // Exemple :
+    // fetch('/api/articles').then(res => res.json()).then(data => setArticles(data));
+  }, []);
 
   return (
-    <div className="articles d-flex mt-4 gap-4">
-      {articlesData.map((article) => (
-        <Article image={article.image} title={article.title} date={article.date} />
+    <div className="articles">
+      {articles.map(article => (
+        <Article
+          key={article.id}
+          titre={article.titre}
+          image={article.image}
+          onVoirPlus={() => console.log("Voir plus cliqué pour", article.titre)}
+        />
       ))}
     </div>
   );
-};
+}
 
 export default Articles;
