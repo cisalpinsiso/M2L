@@ -53,13 +53,14 @@ nav a.active button {
   flex-direction: column;
   width: 100%;
 }
-.bottomnav button{
+.bottomnav button, .bottomnav a {
     border-radius: 20px;
 }
 .topnav button {
   justify-content: left;
   padding-left: 1rem;
 }
+
 .btn:hover{
   background-color: var(--bs-gray-100) !important;
   color: #000000 !important;

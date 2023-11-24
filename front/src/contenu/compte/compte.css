@@ -1,0 +1,35 @@
+.compte .liens {
+    display: grid;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.compte .liens a {
+    display: flex;
+    gap: 20px;
+    color: black;
+    text-decoration: none;
+    align-items: center;
+    padding: 20px;
+    border-radius: 20px;
+    background: white;
+    flex-grow: 1;
+    font-weight: 600;
+}
+
+.compte .liens a:hover {
+    background-color: var(--bs-gray-300);
+    color: black;
+    text-decoration: none;
+}
+
+.compte .liens a i {
+    font-size: 30px;
+}
+
+.compte .liens a:nth-child(1) {
+    grid-column: span 1;
+    grid-row: span 2;
+}

@@ -1,15 +1,14 @@
 
 import React, { useState, useEffect } from "react";
 import "./accueil.css";
-import Carrousel from "./carrousel/carrousel.jsx";
 import  Articles  from "./articles/articles.jsx";
+import Carrousel from "./carousel";
 
 function Accueil(props) {
 
   return (
     <>
-    <Carrousel></Carrousel>
-    <Articles />
+    <Carrousel />
     </>
   );
 }

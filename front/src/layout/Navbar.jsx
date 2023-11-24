@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./Navbar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import api from "../api";
 import { useEffect } from "react";
@@ -17,6 +17,8 @@ function Navbar(props) {
   const [passwordConfirm, setPasswordConfirm] = React.useState("");
 
   const [error, setError] = React.useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setError("");
@@ -92,33 +94,6 @@ function Navbar(props) {
 
       <div class="overflow-hidden nav-wrapper" style={props.navbarOpen ? { maxWidth: "300px" } : { maxWidth: 0 }} >
         <nav>
-          {props.useAlternateNavbar ?
-            <>
-            <div className="topnav">
-              <img src="src/assets/Logo2.png" alt="Logo" />
-              <div className="info-compte">
-                <h3>{props.user.nom}</h3>
-                {/* Autres informations du compte */}
-              </div>
-            </div>
-        
-            <div className="bottomnav">
-              <NavLink className="btn" to="/commandes">
-                <i className="bi bi-pencil-fill"></i> Vos commandes
-              </NavLink>
-              <NavLink className="btn" to="/informations">
-                <i className="bi bi-shield-lock-fill"></i> informations personnelles
-              </NavLink>
-              <NavLink className="btn" to="/parametres">
-                <i className="bi bi-gear-fill"></i> Paramètres
-              </NavLink>
-              <NavLink className="btn" onClick={() => props.setUseAlternateNavbar(false)}>
-                <i className="bi bi-arrow-left-circle-fill"></i> Retour
-              </NavLink>
-            </div>
-            </>
-          :
-          <>
             <div className="topnav">
               <img src="src/assets/Logo2.png" className="" alt="" />
 
@@ -136,34 +111,31 @@ function Navbar(props) {
               </NavLink>
             </div>
 
-              <div className="bottomnav">
-                {props.user ?
-                  <>
-                    <button type="button" className="btn btn-secondary" onClick={() => props.setUseAlternateNavbar(true)}>
-                      <i className="bi bi-person-fill"></i>
-                      Mon compte
-                    </button>
-                    <button type="button" className="btn btn-warning" onClick={handleLogout}>
-                      <i className="bi bi-box-arrow-right" color="white"></i>
-                      Deconnexion
-                    </button>
-                  </>
-                  :
-                  <>
-                    <button type="button" className="btn btn-secondary" onClick={() => setOpenLogin(true)}>
-                      <i className="bi bi-box-arrow-in-right"></i>
-                      Connexion
-                    </button>
-                    <button type="button" className="btn btn-secondary" onClick={() => setOpenRegister(true)}>
-                      <i className="bi bi-person-plus-fill"></i>
-                      Inscription
-                    </button>
-                  </>
-                }
-              </div>
-            </>
-          }
-
+            <div className="bottomnav">
+              {props.user ?
+                <>
+                  <button type="button" className="btn btn-secondary" onClick={() => navigate("/compte")} >
+                    <i className="bi bi-person-fill"></i>
+                    Mon compte
+                  </button>
+                  <button type="button" className="btn btn-warning" onClick={handleLogout}>
+                    <i className="bi bi-box-arrow-right" color="white"></i>
+                    Deconnexion
+                  </button>
+                </>
+                :
+                <>
+                  <button type="button" className="btn btn-secondary" onClick={() => setOpenLogin(true)}>
+                    <i className="bi bi-box-arrow-in-right"></i>
+                    Connexion
+                  </button>
+                  <button type="button" className="btn btn-secondary" onClick={() => setOpenRegister(true)}>
+                    <i className="bi bi-person-plus-fill"></i>
+                    Inscription
+                  </button>
+                </>
+              }
+            </div>
         </nav>
       </div>
     </>
