@@ -12,6 +12,13 @@
   position: absolute;
   right: 5rem;
 }
+
+@media screen and (max-width: 1400px) {
+  .deproduits img {
+    display: none;
+  }
+}
+
 .deproduits a {
   color: black;
 }
