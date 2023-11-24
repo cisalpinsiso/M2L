@@ -10,6 +10,7 @@ import api from './api';
 function App() {
   const [user, setUser] = useState(null);
   const [useAlternateNavbar, setUseAlternateNavbar] = useState(false);
+  const [useAlternateContenu, setUseAlternateContenu] = useState(false);
 
   useEffect(() => {
     api.getUser().then((res) => {
@@ -30,7 +31,11 @@ function App() {
           <MonCompte user={user} toggleNavbar={toggleNavbar} /> : 
           <Navbar user={user} setUser={setUser} toggleNavbar={toggleNavbar} />
         }
-        <Contenu user={user} />
+        {useAlternateContenu ?
+          <Contenu user={user} setUser={setUser} toggleContenu={toggleContenu} /> :
+          <Contenu user={user} setUser={setUser} toggleContenu={toggleContenu} />
+        }
+        
       </div>
     </Router>
   );

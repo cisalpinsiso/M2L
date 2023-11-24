@@ -20,7 +20,7 @@
   }
   
   .mon-compte-nav .btn {
-    justify-content: space-around;
+    justify-content: left;
     display: flex;
     align-items: center;
     gap: 10px; /* Ajustez l'espace entre l'icône et le texte */
