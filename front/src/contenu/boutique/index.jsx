@@ -52,6 +52,8 @@ function Boutique(props) {
 
   const sizePanier = props.panier.reduce((acc, product) => acc + product.quantity, 0);
 
+  const prixTotal = props.panier.reduce((acc, product) => acc + product.prix * product.quantity, 0);
+
   return (
     <>
       <div className="firstblock">
@@ -91,7 +93,10 @@ function Boutique(props) {
                 ))}
               </ul>
               {props.user ?
-                <button type="button" className="btn btn-primary mt-3 w-100">Commander</button>
+                <div>
+                  <div className="text-center mt-3">Prix total : {prixTotal} €</div>
+                  <button type="button" className="btn btn-primary mt-3 w-100">Commander</button>
+                </div>
               :
                 <div className="text-center mt-3">Veuillez vous connecter pour commander</div>
               }
