@@ -1,16 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
 
-import './carousel.css';
+import "./carousel.css";
 
 // import required modules
-import { FreeMode, Pagination } from 'swiper/modules';
+import { FreeMode, Pagination } from "swiper/modules";
 
 export default function Carrousel() {
   return (
@@ -25,7 +25,12 @@ export default function Carrousel() {
         modules={[FreeMode, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
+        <SwiperSlide>
+          <img
+            src="https://www.lepoint.fr/images/2020/06/08/20424820lpw-20424870-article-jpg_7157566_1250x625.jpg"
+            alt=""
+          />
+        </SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
         <SwiperSlide>Slide 3</SwiperSlide>
         <SwiperSlide>Slide 4</SwiperSlide>
