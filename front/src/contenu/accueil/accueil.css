@@ -1,36 +1,4 @@
-
-.carousel-inner {
-    display: flex; /* Utiliser flex pour avoir une disposition linéaire des items */
-    overflow: hidden; /* Cacher les images qui débordent */
-  }
-  
-  .carousel-item {
-    flex: 0 0 100%; /* Chaque image occupe 100% de la largeur du carrousel */
-    transition: transform 0.5s ease-in-out; /* Transition fluide pour la transformation */
-  }
-  
-  /* Quand un élément est à la position 'next' ou 'prev', il est placé juste à côté de l'image active */
-  .carousel-item-next,
-  .carousel-item-prev,
-  .carousel-item.active {
-    display: block;
-  }
-
-  
-  .carousel-inner .carousel-item {
-    transition: opacity 0.3s;
-  }
-  
-  .carousel-inner .carousel-item:hover {
-    opacity: 0.7;
-  }
-  
-  .carousel-caption {
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .carousel-caption.show-description {
-    opacity: 1;
-  }
-
+.firstblock {
+  margin-bottom: 10px;
+  border-bottom: 3px solid orange;
+}
