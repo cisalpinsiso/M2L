@@ -29,6 +29,7 @@ function Accueil(props) {
         <img src="src/assets/KAPPA.png" className="" alt="" />
       </div>
       <Carrousel />
+      <Article/>
     </>
   );
 }
