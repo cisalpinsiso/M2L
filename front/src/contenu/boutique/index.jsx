@@ -104,17 +104,6 @@ function Boutique(props) {
           }
         </div>
       </div>
-      <div className="deproduits">
-        <div>
-          <h4>
-            Decouvrez notre <b>nouvelle gamme de produits</b> !
-          </h4>
-          <a href="">
-            Voir les produits <i className="bi bi-arrow-right"></i>
-          </a>
-        </div>
-        <img src="src/assets/KAPPA.png" className="" alt="" />
-      </div>
       <div ref={searchRef}>
         <form>
           <div className="input-group mb-3">

@@ -15,6 +15,17 @@ function Accueil(props) {
         </p>
        
       </div>
+      <div className="deproduits">
+        <div>
+          <h4>
+            Découvrez notre <b>nouvelle gamme de produits</b> !
+          </h4>
+          <a href="">
+            Voir les produits <i className="bi bi-arrow-right"></i>
+          </a>
+        </div>
+        <img src="src/assets/KAPPA.png" className="" alt="" />
+      </div>
       <Carrousel />
     </>
   );
