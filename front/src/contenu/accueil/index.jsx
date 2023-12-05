@@ -3,6 +3,7 @@ import "./accueil.css";
 
 import Carrousel from "./carousel";
 import Article from "./article/article";
+import { Link } from "react-router-dom";
 
 function Accueil(props) {
   return (
@@ -21,9 +22,9 @@ function Accueil(props) {
           <h4>
             Découvrez notre <b>nouvelle gamme de produits</b> !
           </h4>
-          <a href="">
+          <Link to="/boutique">
             Voir les produits <i className="bi bi-arrow-right"></i>
-          </a>
+          </Link>
         </div>
         <img src="src/assets/KAPPA.png" className="" alt="" />
       </div>
