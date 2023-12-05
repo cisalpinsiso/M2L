@@ -1,24 +1,3 @@
-.deproduits {
-  background-color: #f8c92a;
-  padding: 2rem;
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-.deproduits img {
-  width: auto;
-  height: 250px;
-  position: absolute;
-  right: 5rem;
-}
-
-@media screen and (max-width: 1400px) {
-  .deproduits img {
-    display: none;
-  }
-}
-
 .deproduits a {
   color: black;
 }

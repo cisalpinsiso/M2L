@@ -1,6 +1,8 @@
 .swiper {
   margin: 0px;
   max-width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 .contenu {
