@@ -25,23 +25,7 @@ function Matchs(props) {
 
   useEffect(() => {
     if (equipes.length == 0) return;
-
-    for (let i = 0; i < 3; i++) {
-      let randomTeam1 = Math.floor(Math.random() * equipes.length)
-      let randomTeam2 = null;
-
-      while (randomTeam2 == null || randomTeam2 == randomTeam1) {
-        randomTeam2 = Math.floor(Math.random() * equipes.length)
-      }
-
-      let randomDate = new Date(2023, Math.floor(Math.random() * 12), Math.floor(Math.random() * 30), Math.floor(Math.random() * 24), Math.floor(Math.random() * 60), Math.floor(Math.random() * 60), Math.floor(Math.random() * 1000))
-
-      setMatches([...matches, {
-        equipe1: equipes[randomTeam1],
-        equipe2: equipes[randomTeam2],
-        date: randomDate
-      }])
-    }
+    generateMatchs();
   }, [props.equipes])
 
   return (
