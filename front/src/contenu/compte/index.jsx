@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./compte.css";
 import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 function Compte(props) {
+  console.log(props.user);
   return (
     <div className="compte">
       <Accordion>
@@ -14,24 +16,30 @@ function Compte(props) {
             Paramètres
           </Accordion.Header>
           <Accordion.Body>
+            <h4>
+              Fonction : <strong>{props.user.fonction}</strong>
+            </h4>
             <Form>
               <Form.Group
-                className="mb-3"
+                className="mb-3 w-50"
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Address Email</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" />
+                <Form.Control type="email" placeholder={props.user.email} />
+                <Form.Label>Nom</Form.Label>
+                <Form.Control type="" placeholder={props.user.mdp} />
+                <Form.Label>Prenom</Form.Label>
+                <Form.Control type="email" placeholder={props.user.prenom} />
                 <Form.Label htmlFor="inputPassword5">Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  id="inputPassword5"
-                  aria-describedby="passwordHelpBlock"
-                />
-                <Form.Text id="passwordHelpBlock" muted>
-                  Your password must be 8-20 characters long, contain letters
-                  and numbers, and must not contain spaces, special characters,
-                  or emoji.
-                </Form.Text>
+                {/* <Form.Control value={props.user.password} type="password" /> */}
+                <div className="display-flex">
+                  <Button className="w-50" variant="primary">
+                    Modifier
+                  </Button>{" "}
+                  <Form.Text id="passwordHelpBlock" muted>
+                    hello bitch dab tema le dab
+                  </Form.Text>
+                </div>
               </Form.Group>
             </Form>
           </Accordion.Body>
