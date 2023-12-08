@@ -50,13 +50,13 @@ function Matchs(props) {
                     <img src={"/equipes" + match.equipe1.logo} alt="" />
                   </td>
                   <td>
-                    <p>{match.equipe1.name}</p>
+                    <p>{match.equipe1.nom}</p>
                   </td>
                   <td>
                     <img src={"/equipes" + match.equipe2.logo} alt="" />
                   </td>
                   <td>
-                    <p>{match.equipe2.name}</p>
+                    <p>{match.equipe2.nom}</p>
                   </td>
                   <td>
                     <p>{match.date.toLocaleString()}</p>
