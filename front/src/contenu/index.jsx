@@ -33,7 +33,7 @@ function Contenu(props) {
           element={<Compte user={props.user} panier={panier} />}
         />
         <Route path="/matchs" element={<Matchs equipes={props.equipes} />} />
-        <Route path="/article/:id" element={<ArticleUrl articles={props.articles} />} />
+        <Route path="/article/:id" element={<ArticleUrl articles={props.articles}/>} />
       </Routes>
     </div>
   );
