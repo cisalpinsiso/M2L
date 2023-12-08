@@ -1,10 +1,11 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-function ArticleUrl() {
-  const location = useLocation();
-  const article = location.state.article;
+function ArticleUrl(props) {
+  const { id } = useParams(); // Récupérer l'ID de l'URL
+  const article = props.articles.find(a => a.id.toString() === id); // Trouver l'article par ID
 
+    console.log(id)
   if (!article) return <div>Aucun article sélectionné</div>;
 
   return (

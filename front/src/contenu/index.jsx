@@ -17,7 +17,7 @@ function Contenu(props) {
         <Route path="/boutique" element={<Boutique user={props.user} panier={panier} setPanier={setPanier} />} />
         <Route path="/compte" element={props.user ? <Compte user={props.user} panier={panier} setPanier={setPanier} /> : (props.user === null ? <Navigate to="/" /> : <></>)} />
         <Route path="/matchs" element={<Matchs equipes={props.equipes} />} />
-        <Route path="/article/:id" element={<ArticleUrl articles={props.articles} />} />
+        <Route path="/article/:id" element={<ArticleUrl articles={props.articles}/>} />
       </Routes>
     </div>
   );
