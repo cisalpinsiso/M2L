@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../api";
+import "./commande.css";
 
 const CommandePage = () => {
   const [commandes, setCommandes] = useState([]);
@@ -26,18 +27,23 @@ const CommandePage = () => {
     <div>
       {commandes &&
         commandes.map((commande, index) => (
-          <div key={index}>
-            <p>Commande ID: {commande.id}</p>
-            <p>Date: {commande.date}</p>
-            <p>Produits:</p>
-            <ul>
+          <div className="cont" key={index}>
+            <p>Commande effectue le : {commande.date}</p>
+            <p>Produits commander:</p>
+
+            <div className="blockcard">
               {commande.produits.map((product, index) => (
-                <li key={index}>
-                  <p>{product.prix}</p>
-                  {product.name} x {product.quantity}
-                </li>
+                <div className="card-body" key={index}>
+                  <div className="d-flex align-items-center ">
+                    <img className="imagecommande" src={product.image} alt="" />{" "}
+                    <p className="nbcommande">{product.quantity} X</p>
+                  </div>
+
+                  <h5>{product.prix} €</h5>
+                  <p className="descriptionproduits">{product.description}</p>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         ))}
     </div>
