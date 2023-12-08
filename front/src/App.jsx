@@ -7,7 +7,7 @@ import Contenu from './contenu';
 
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [equipes, setEquipes] = useState([]);
   const [articles, setArticles] = useState([]);
   const [useAlternateNavbar, setUseAlternateNavbar] = useState(false);
@@ -17,7 +17,9 @@ function App() {
     api.getUser().then((res) => {
       if (res.data.success) {
         setUser(res.data.user);
+        return;
       }
+      setUser(null);
     })
 
     api.getEquipes().then((res) => {
