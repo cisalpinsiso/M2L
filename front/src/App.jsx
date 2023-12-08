@@ -9,6 +9,7 @@ import Contenu from './contenu';
 function App() {
   const [user, setUser] = useState(null);
   const [equipes, setEquipes] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [useAlternateNavbar, setUseAlternateNavbar] = useState(false);
   const [navbarOpen, setNavbarOpen] = useState(true);
 
@@ -25,6 +26,13 @@ function App() {
         console.log(res.data.equipes);
       }
     })
+
+    api.getArticles().then((res) => {
+      if (res.data.success) {
+        setArticles(res.data.articles);
+        console.log(res.data.articles);
+      }
+    })
   }, []);
 
   return (
@@ -38,7 +46,7 @@ function App() {
           </svg>
         </label>
         <Navbar user={user} setUser={setUser} navbarOpen={navbarOpen} useAlternateNavbar={useAlternateNavbar} setUseAlternateNavbar={setUseAlternateNavbar} />
-        <Contenu user={user} equipes={equipes} />
+        <Contenu user={user} equipes={equipes} articles={articles} />
       </div>
     </Router>
   );

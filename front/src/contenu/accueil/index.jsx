@@ -29,7 +29,7 @@ function Accueil(props) {
         <img src="src/assets/KAPPA.png" className="" alt="" />
       </div>
       <Carrousel equipes={props.equipes} />
-      <Article/>
+      <Article articles={props.articles} />
     </>
   );
 }

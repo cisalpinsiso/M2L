@@ -54,6 +54,26 @@ app.get("/api/equipes", (req, res) => {
   });
 });
 
+app.get('/api/articles', (req, res) => {
+    pool.query('SELECT * FROM article', (err, rows) => {
+        if (err) {
+            res.send({ 'success': false, 'message': err });
+        } else {
+            res.send({ 'success': true, 'articles': rows });
+        }
+    });
+});
+
+app.get('/api/articles', (req, res) => {
+    pool.query('SELECT * FROM article', (err, rows) => {
+        if (err) {
+            res.send({ 'success': false, 'message': err });
+        } else {
+            res.send({ 'success': true, 'articles': rows });
+        }
+    });
+});
+
 app.get("/api/produits", (req, res) => {
   pool.query("SELECT * FROM stock", (err, rows) => {
     if (err) {
