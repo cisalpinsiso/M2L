@@ -50,7 +50,7 @@ app.post("/api/user", (req, res) => {
         return;
     }
 
-    const { nom, prenom, email, password } = req.body;
+    const { nom, prenom, email } = req.body;
 
     if (!nom || !prenom || !email || !password) {
         res.send({ success: false, message: "Veuillez remplir tous les champs" });
@@ -64,17 +64,60 @@ app.post("/api/user", (req, res) => {
 
     const id = req.session.user.id;
 
-    pool.query("SELECT * FROM utilisateur WHERE id = ?", [id], (err, rows) => {
+    pool.query('UPDATE utilisateur SET nom = ?, prenom = ?, email = ? WHERE id = ?', [nom, prenom, email, id], (err, rows) => {
         if (err) {
             res.send({ success: false, message: err });
         } else {
-            bcrypt.compare(password, rows[0].mdp, (err, result) => {
+            req.session.user.nom = nom;
+            req.session.user.prenom = prenom;
+            req.session.user.email = email;
+            res.send({ success: true, message: "success" });
+        }
+    });
+});
+
+app.post("/api/password", (req, res) => {
+    if (!req.session.user) {
+        res.send({ success: false, message: "Non connecté" });
+        return;
+    }
+
+    const { oldPassword, password, confirm } = req.body;
+
+    if (!oldPassword || !password || !confirm) {
+        res.send({ success: false, message: "Veuillez remplir tous les champs" });
+        return;
+    }
+
+    if (password.length < 8) {
+        res.send({ success: false, message: "Mot de passe trop court" });
+        return;
+    }
+
+    if (password !== confirm) {
+        res.send({ success: false, message: "Les mots de passe ne correspondent pas" });
+        return;
+    }
+
+    const id = req.session.user.id;
+
+    pool.query('SELECT * FROM utilisateur WHERE id = ?', [id], (err, rows) => {
+        if (err) {
+            res.send({ success: false, message: err });
+        } else {
+            bcrypt.compare(oldPassword, rows[0].mdp, (err, result) => {
                 if (result) {
-                    pool.query("UPDATE utilisateur SET nom = ?, prenom = ?, email = ? WHERE id = ?", [nom, prenom, email, id], (err, rows) => {
+                    bcrypt.hash(password, 10, (err, hash) => {
                         if (err) {
                             res.send({ success: false, message: err });
                         } else {
-                            res.send({ success: true, message: "success" });
+                            pool.query('UPDATE utilisateur SET mdp = ? WHERE id = ?', [hash, id], (err, rows) => {
+                                if (err) {
+                                    res.send({ success: false, message: err });
+                                } else {
+                                    res.send({ success: true, message: "success" });
+                                }
+                            });
                         }
                     });
                 } else {

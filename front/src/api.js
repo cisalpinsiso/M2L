@@ -17,8 +17,12 @@ const api = {
     return axios.get('/api/user');
   },
 
-  updateUser(nom, prenom, email, password) {
-    return axios.post('/api/user', { nom, prenom, email, password });
+  updateUser(nom, prenom, email) {
+    return axios.post('/api/user', { nom, prenom, email });
+  },
+
+  updatePassword(oldPassword, password, confirm) {
+    return axios.post('/api/password', { oldPassword, password, confirm });
   },
 
   getEquipes() {
