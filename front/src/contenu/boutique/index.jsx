@@ -50,6 +50,14 @@ function Boutique(props) {
     }
   };
 
+  const commander = () => {
+    api.newCommande(JSON.stringify(props.panier.map(p => ({ id: p.id, quantity: p.quantity })))).then((response) => {
+      if (response.data) {
+        props.setPanier([]);
+      }
+    });
+  };
+
   const sizePanier = props.panier.reduce((acc, product) => acc + product.quantity, 0);
 
   const prixTotal = props.panier.reduce((acc, product) => acc + product.prix * product.quantity, 0);
@@ -95,7 +103,7 @@ function Boutique(props) {
               {props.user ?
                 <div>
                   <div className="text-center mt-3">Prix total : {prixTotal} €</div>
-                  <button type="button" className="btn btn-primary mt-3 w-100">Commander</button>
+                  <button type="button" className="btn btn-primary mt-3 w-100" onClick={() => commander()}>Commander</button>
                 </div>
               :
                 <div className="text-center mt-3">Veuillez vous connecter pour commander</div>

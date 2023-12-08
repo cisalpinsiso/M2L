@@ -25,6 +25,14 @@ const api = {
     return axios.post('/api/password', { oldPassword, password, confirm });
   },
 
+  getCommandes() {
+    return axios.get('/api/commandes');
+  },
+
+  newCommande(produits) {
+    return axios.post('/api/commande', { produits });
+  },
+
   getEquipes() {
     return axios.get('/api/equipes');
   },

@@ -128,6 +128,95 @@ app.post("/api/password", (req, res) => {
     });
 });
 
+app.post("/api/commande", (req, res) => {
+    if (!req.session.user) {
+        res.send({ success: false, message: "Non connecté" });
+        return;
+    }
+
+    const { produits } = req.body;
+
+    if (!produits) {
+        res.send({ success: false, message: "Veuillez remplir tous les champs" });
+        return;
+    }
+
+    const id = uuid.v4();
+    const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+    const produitsParsed = JSON.parse(produits);
+
+    pool.query('SELECT * FROM stock', (err, rows) => {
+        if (err) {
+            res.send({ success: false, message: err });
+        } else {
+            const stock = rows;
+            let allProductsExist = true;
+            let total = 0;
+            produitsParsed.forEach((produit) => {
+                const product = stock.find((p) => p.id === produit.id);
+                if (!product) {
+                    allProductsExist = false;
+                } else {
+                    total += product.prix * produit.quantite;
+                }
+            });
+
+            if (!allProductsExist) {
+                res.send({ success: false, message: "Un ou plusieurs produits n'existent pas" });
+                return;
+            }
+
+            pool.query('INSERT INTO commande (id, date, produits, id_utilisateur) VALUES (?, ?, ?, ?)', [id, date, produits, req.session.user.id], (err, rows) => {
+                if (err) {
+                    res.send({ success: false, message: err });
+                }
+
+                res.send({ success: true, message: "success" });
+            });
+        }
+    });
+});
+
+app.get("/api/commandes", (req, res) => {
+    if (!req.session.user) {
+        res.send({ success: false, message: "Non connecté" });
+    }
+
+    pool.query('SELECT * FROM commande WHERE id_utilisateur = ?', [req.session.user.id], (err, rows) => {
+        if (err) {
+            res.send({ success: false, message: err });
+        }
+
+        const commands = rows;
+        pool.query('SELECT * FROM stock', (err, rows) => {
+            if (err) {
+                res.send({ success: false, message: err });
+            }
+
+            const stock = rows;
+            const commandsWithProducts = commands.map((command) => {
+                const products = JSON.parse(command.produits);
+                const productsWithDetails = products.map((product) => {
+                    const productDetails = stock.find((p) => p.id === product.id);
+                    return {
+                        ...product,
+                        nom: productDetails.nom,
+                        prix: productDetails.prix,
+                    };
+                });
+
+                return {
+                    ...command,
+                    produits: productsWithDetails,
+                };
+            });
+
+            res.send({ success: true, commands: commandsWithProducts });
+        });
+    });
+});
+
 app.get("/api/equipes", (req, res) => {
   pool.query("SELECT * FROM equipe", (err, rows) => {
     if (err) {
