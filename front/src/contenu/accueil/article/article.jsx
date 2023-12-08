@@ -17,7 +17,7 @@ function Article(props) {
          }}
          key={article.id}
          >
-            <div className="article-image-container">
+            <div className="article-image-container article">
               <img src={article.image} alt={`Article titled: ${article.titre}`} />
               <h3 className="article-title">{article.titre}</h3>
             </div>
