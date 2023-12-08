@@ -5,7 +5,7 @@ import "./partiedroite.css";
 import { Routes, Route } from "react-router-dom";
 import Compte from "./compte";
 import Matchs from "./matchs";
-import Article from "./accueil/article/article";
+import ArticleUrl from "./accueil/articleUrl/articleurl";
 
 function Contenu(props) {
   const [panier, setPanier] = useState([]);
@@ -13,6 +13,9 @@ function Contenu(props) {
   return (
     <div className="contenu">
       <Routes>
+        <Route path="/" element={<Accueil equipes={props.equipes} articles={props.articles} />} />
+        <Route path="/boutique" element={<Boutique user={props.user} panier={panier} setPanier={setPanier} />} />
+        <Route path="/compte" element={<Compte user={props.user} panier={panier} />} />
         <Route
           path="/"
           element={
@@ -30,6 +33,7 @@ function Contenu(props) {
           element={<Compte user={props.user} panier={panier} />}
         />
         <Route path="/matchs" element={<Matchs equipes={props.equipes} />} />
+        <Route path="/article/:id" element={<ArticleUrl articles={props.articles} />} />
       </Routes>
     </div>
   );
