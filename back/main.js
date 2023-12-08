@@ -52,7 +52,7 @@ app.post("/api/user", (req, res) => {
 
     const { nom, prenom, email } = req.body;
 
-    if (!nom || !prenom || !email || !password) {
+    if (!nom || !prenom || !email) {
         res.send({ success: false, message: "Veuillez remplir tous les champs" });
         return;
     }
