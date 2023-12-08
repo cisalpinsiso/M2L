@@ -17,6 +17,10 @@ const api = {
     return axios.get('/api/user');
   },
 
+  getEquipes() {
+    return axios.get('/api/equipes');
+  },
+
   getProduits() {
     return axios.get('/api/produits');
   },

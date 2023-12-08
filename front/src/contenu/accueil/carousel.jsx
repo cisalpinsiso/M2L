@@ -12,9 +12,9 @@ import "./carousel.css";
 // import required modules
 import { FreeMode, Pagination } from "swiper/modules";
 
-import equipes from "../equipes.json";
-
-export default function Carrousel() {
+export default function Carrousel(props) {
+  const { equipes } = props;
+  
   return (
     <>
       <Swiper

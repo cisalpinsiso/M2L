@@ -40,6 +40,16 @@ app.get('/api/user', (req, res) => {
     }
 });
 
+app.get('/api/equipes', (req, res) => {
+    pool.query('SELECT * FROM equipe', (err, rows) => {
+        if (err) {
+            res.send({ 'success': false, 'message': err });
+        } else {
+            res.send({ 'success': true, 'equipes': rows });
+        }
+    });
+});
+
 app.get('/api/produits', (req, res) => {
     pool.query('SELECT * FROM stock', (err, rows) => {
         if (err) {

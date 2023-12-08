@@ -12,10 +12,10 @@ function Contenu(props) {
   return (
     <div className="contenu">
       <Routes>
-        <Route path="/" element={<Accueil />} />
+        <Route path="/" element={<Accueil equipes={props.equipes} />} />
         <Route path="/boutique" element={<Boutique user={props.user} panier={panier} setPanier={setPanier} />} />
         <Route path="/compte" element={<Compte />} />
-        <Route path="/matchs" element={<Matchs />} />
+        <Route path="/matchs" element={<Matchs equipes={props.equipes} />} />
       </Routes>
     </div>
   );
