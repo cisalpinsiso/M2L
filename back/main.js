@@ -203,6 +203,8 @@ app.get("/api/commandes", (req, res) => {
                         ...product,
                         nom: productDetails.nom,
                         prix: productDetails.prix,
+                        image: productDetails.image,
+                        description: productDetails.description,
                     };
                 });
 
