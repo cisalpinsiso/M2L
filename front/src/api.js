@@ -25,6 +25,10 @@ const api = {
     return axios.get('/api/produits');
   },
 
+  getArticles() {
+    return axios.get('/api/articles/');
+  },
+
   deleteProduit(id) {
     return axios.delete('/api/produits/' + id);
   },
