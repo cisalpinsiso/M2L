@@ -1,13 +1,27 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./compte.css";
+import { useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 function Compte(props) {
-  console.log(props.user);
-  console.log(props.panier);
+  const [email, setEmail] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Mise à jour de l'état local lorsque les props changent
+  useEffect(() => {
+    if (props.user) {
+      setEmail(props.user.email || "");
+      setNom(props.user.nom || "");
+      setPrenom(props.user.prenom || "");
+      setPassword(props.user.password || ""); // Soyez prudent avec les mots de passe
+    }
+  }, [props.user]);
+
   return (
     <div className="compte">
       <Accordion>
@@ -25,21 +39,27 @@ function Compte(props) {
                 className="mb-3 w-50"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Address Email</Form.Label>
+                <Form.Label>Adresse Email</Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder={props.user && props.user.email}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
+
                 <Form.Label>Nom</Form.Label>
                 <Form.Control
-                  type=""
-                  placeholder={props.user && props.user.nom}
+                  type="text"
+                  value={nom}
+                  onChange={(e) => setNom(e.target.value)}
                 />
-                <Form.Label>Prenom</Form.Label>
+
+                <Form.Label>Prénom</Form.Label>
                 <Form.Control
-                  type="email"
-                  placeholder={props.user && props.user.prenom}
+                  type="text"
+                  value={prenom}
+                  onChange={(e) => setPrenom(e.target.value)}
                 />
+
                 <Form.Label htmlFor="inputPassword5">Password</Form.Label>
                 {/* <Form.Control value={props.user.password} type="password" /> */}
                 <div className="display-flex">
@@ -73,8 +93,17 @@ function Compte(props) {
             Panier
           </Accordion.Header>
           <Accordion.Body>
-            <p>{props.panier.nom}</p>
-            <p>{props.panier.length}</p>
+            <div className="display">
+              {props.panier.map((panier) => {
+                return (
+                  <div className="panier">
+                    <img src={panier.image} className="panierimg" alt="" />
+                    <p>{panier.nom}</p>
+                    <p>{panier.prix}</p>
+                  </div>
+                );
+              })}
+            </div>
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="3">

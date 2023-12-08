@@ -81,3 +81,15 @@
   margin: -50px;
   bottom: 0%;
 }
+.panier img {
+  width: 20%;
+  height: 20%;
+}
+.panier {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
