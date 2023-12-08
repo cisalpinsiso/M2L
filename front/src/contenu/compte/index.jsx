@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import "./compte.css";
 import { useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
@@ -11,6 +10,8 @@ function Compte(props) {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [password, setPassword] = useState("");
+  const [modifie, setModifie] = useState(false);
+  const [mdpmodifie, setMdpodifie] = useState(false);
 
   // Mise à jour de l'état local lorsque les props changent
   useEffect(() => {
@@ -22,6 +23,13 @@ function Compte(props) {
     }
   }, [props.user]);
 
+  const handleChange = (updateFunc) => (e) => {
+    updateFunc(e.target.value);
+    setModifie(true);
+  };
+  const changementdemotdepasse = () => {
+    setMdpodifie(true);
+  };
   return (
     <div className="compte">
       <Accordion>
@@ -32,44 +40,93 @@ function Compte(props) {
           </Accordion.Header>
           <Accordion.Body>
             <h4>
-              Fonction : <strong>{props.user && props.user.fonction}</strong>
+              Fonction :{" "}
+              <strong className="fonctionjoueur">
+                {props.user && props.user.fonction}
+              </strong>
             </h4>
-            <Form>
-              <Form.Group
-                className="mb-3 w-50"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Adresse Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+            <div className="d-flex ">
+              <Form>
+                <Form.Group
+                  className="mb-3 w-100 p-4"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Adresse Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    value={email}
+                    onChange={handleChange(setEmail)}
+                  />
 
-                <Form.Label>Nom</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={nom}
-                  onChange={(e) => setNom(e.target.value)}
-                />
+                  <Form.Label>Nom</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={nom}
+                    onChange={handleChange(setNom)}
+                  />
 
-                <Form.Label>Prénom</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={prenom}
-                  onChange={(e) => setPrenom(e.target.value)}
-                />
+                  <Form.Label>Prénom</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={prenom}
+                    onChange={handleChange(setPrenom)}
+                  />
+                  {modifie && (
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        /* Logique de confirmation ici */
+                      }}
+                      className="fade-in mt-4 w-50"
+                    >
+                      Confirmer
+                    </Button>
+                  )}
+                </Form.Group>
+              </Form>
+              <div className="petittraitaccount"></div>
+              <Form>
+                <Form.Group
+                  className="mb-3 w-100 p-4"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <br />
 
-                <Form.Label htmlFor="inputPassword5">Password</Form.Label>
-                {/* <Form.Control value={props.user.password} type="password" /> */}
-                <div className="display-flex">
-                  <Button className="w-50">Modifier</Button> <br />
-                  <Form.Text id="passwordHelpBlock" muted>
-                    hello bitch dab tema le dab
-                  </Form.Text>
-                </div>
-              </Form.Group>
-            </Form>
+                  {mdpmodifie == false && (
+                    <Button
+                      variant="primary"
+                      onClick={changementdemotdepasse}
+                      className="w-100"
+                    >
+                      Modifier votre mot de passe
+                    </Button>
+                  )}
+
+                  {mdpmodifie && (
+                    <div className="fade-in">
+                      <Form.Label>Ancien mot de passe </Form.Label>
+                      <Form.Control type="text" />
+
+                      <Form.Label>Nouveau mot de passe</Form.Label>
+                      <Form.Control type="password" />
+                      <Form.Label>Confirmer le nouveau mot de passe</Form.Label>
+                      <Form.Control type="password" />
+                      <br />
+
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          /* Logique de confirmation ici */
+                        }}
+                        className=" mt-4 w-50"
+                      >
+                        Confirmer
+                      </Button>
+                    </div>
+                  )}
+                </Form.Group>
+              </Form>
+            </div>
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item className="Accordion.Item" eventKey="1">

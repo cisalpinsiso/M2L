@@ -93,3 +93,23 @@
   justify-content: center;
   margin-top: 2rem;
 }
+.petittraitaccount {
+  width: 3px;
+  background-color: var(--bs-gray-300);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s;
+}
+.fonctionjoueur {
+  color: #ffc107;
+  text-transform: uppercase;
+}

@@ -13,7 +13,12 @@ function Contenu(props) {
   return (
     <div className="contenu">
       <Routes>
-        <Route path="/" element={<Accueil equipes={props.equipes} articles={props.articles} />} />
+        <Route
+          path="/"
+          element={
+            <Accueil equipes={props.equipes} articles={props.articles} />
+          }
+        />
         <Route
           path="/boutique"
           element={
