@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 08 déc. 2023 à 12:20
--- Version du serveur : 10.4.27-MariaDB
--- Version de PHP : 8.1.12
+-- Généré le : ven. 08 déc. 2023 à 16:02
+-- Version du serveur : 10.4.28-MariaDB
+-- Version de PHP : 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -66,6 +66,26 @@ INSERT INTO `article` (`id`, `titre`, `image`, `texte`, `auteur`, `date`) VALUES
 (8, 'Psychologie du sport : la mentalité de la victoire', 'https://source.unsplash.com/featured/?sports-psychology&sig=108', 'Explorer l\'impact de la psychologie sur les performances sportives...', 'David Smith', '2023-02-03 00:00:00.000000'),
 (9, 'Les femmes qui changent le visage du sport', 'https://source.unsplash.com/featured/?women-in-sports&sig=109', 'Portrait de femmes influentes dans le monde du sport...', 'Amina Khatib', '2023-02-07 00:00:00.000000'),
 (10, 'L\'essor du sport électronique dans le monde', 'https://source.unsplash.com/featured/?esports&sig=110', 'Le sport électronique, un phénomène mondial en pleine expansion...', 'Julien Moreau', '2023-02-11 00:00:00.000000');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `commande`
+--
+
+CREATE TABLE `commande` (
+  `id` varchar(64) NOT NULL,
+  `id_utilisateur` int(11) NOT NULL,
+  `produits` varchar(256) NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`id`, `id_utilisateur`, `produits`, `date`) VALUES
+('4076090b-b547-475a-aa90-289a83f829da', 2, '[{\"id\":1,\"quantity\":4},{\"id\":3,\"quantity\":2}]', '2023-12-08 15:00:16');
 
 -- --------------------------------------------------------
 
@@ -290,10 +310,11 @@ ALTER TABLE `annonce_global`
   ADD KEY `id_utilisateur` (`id_utilisateur`);
 
 --
--- Index pour la table `article`
+-- Index pour la table `commande`
 --
-ALTER TABLE `article`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `commande`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_utilisateur` (`id_utilisateur`);
 
 --
 -- Index pour la table `equipe`
@@ -357,16 +378,10 @@ ALTER TABLE `annonce_global`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `article`
---
-ALTER TABLE `article`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
 -- AUTO_INCREMENT pour la table `equipe`
 --
 ALTER TABLE `equipe`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `match_rencontre`
@@ -401,6 +416,12 @@ ALTER TABLE `utilisateur`
 --
 ALTER TABLE `annonce_global`
   ADD CONSTRAINT `annonce_global_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id`);
+
+--
+-- Contraintes pour la table `commande`
+--
+ALTER TABLE `commande`
+  ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id`);
 
 --
 -- Contraintes pour la table `joueur`
