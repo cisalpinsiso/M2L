@@ -58,15 +58,10 @@ CREATE TABLE `equipe` (
 INSERT INTO `equipe` (`id`, `nom`, `ville`, `sport`, `logo`, `banniere`) VALUES
 (1, 'Purple Crown', 'London', 'foot', '/purplecrown.png', 'https://cdn.britannica.com/39/239139-050-49A950D1/French-soccer-player-Kylian-Mbappe-FIFA-World-Cup-December-10-2022.jpg'),
 (2, 'Maze Dragon', 'Madrid', 'foot', '/mazedragon.png', 'https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/blt8f189ff0c52f9885/63af578868ce201ffcda00c0/Ronny_cover(1).jpg'),
-(3, 'Imperial Tiger', 'Manchester', 'foot', '/imperialtiger.png', 'https://s.france24.com/media/display/0737f0d8-f628-11eb-8a9b-005056bfb2b6/w:1280/p:1x1/1916ffb4fe5874d2d332ae652632f986453c6f0c.'),
+(3, 'Imperial Tiger', 'Manchester', 'foot', '/imperialtiger.png', 'https://assets-fr.imgfoot.com/media/toujours-pas-de-c1-pour-ibra_175990.jpg'),
 (4, 'Horse Riders', 'Manchester', 'foot', '/horseriders.png', 'https://i.insider.com/5fd350fae00bce00188bab82?width=1000&format=jpeg&auto=webp'),
 (5, 'Blue Tail', 'London', 'foot', '/bluetail.png', 'https://deshpee.com/wp-content/uploads/2023/08/image-1.png'),
-(6, 'Purple Crown', 'London', 'foot', '/purplecrown.png', 'https://cdn.britannica.com/39/239139-050-49A950D1/French-soccer-player-Kylian-Mbappe-FIFA-World-Cup-December-10-2022.jpg'),
-(7, 'Maze Dragon', 'Madrid', 'foot', '/mazedragon.png', 'https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/blt8f189ff0c52f9885/63af578868ce201ffcda00c0/Ronny_cover(1).jpg'),
-(8, 'Imperial Tiger', 'Manchester', 'foot', '/imperialtiger.png', 'https://s.france24.com/media/display/0737f0d8-f628-11eb-8a9b-005056bfb2b6/w:1280/p:1x1/1916ffb4fe5874d2d332ae652632f986453c6f0c.'),
-(9, 'Horse Riders', 'Manchester', 'foot', '/horseriders.png', 'https://i.insider.com/5fd350fae00bce00188bab82?width=1000&format=jpeg&auto=webp'),
-(10, 'Blue Tail', 'London', 'foot', '/bluetail.png', 'https://deshpee.com/wp-content/uploads/2023/08/image-1.png'),
-(11, 'Black Pirates', 'Milan', 'foot', '/blackpirates.png', 'https://cdn.images.express.co.uk/img/dynamic/67/590x/400172_1.jpg?r=1686998680160');
+(6, 'Black Pirates', 'Milan', 'foot', '/blackpirates.png', 'https://cdn.images.express.co.uk/img/dynamic/67/590x/400172_1.jpg?r=1686998680160');
 
 -- --------------------------------------------------------
 

@@ -31,14 +31,14 @@ export default function Carrousel(props) {
           equipes.map((equipe) => {
             return (
               <SwiperSlide>
-                <img className="joueur" src={equipe.players} alt="" />
+                <img className="joueur" src={equipe.banniere} alt="" />
                 <div className="team">
                   <img
                     src={"/equipes" + equipe.logo}
                     alt=""
                     className="logo"
                   />
-                  <h1 className="titre">{equipe.name}</h1>
+                  <h1 className="titre">{equipe.nom}</h1>
                 </div>
               </SwiperSlide>
             )
