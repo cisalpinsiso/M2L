@@ -33,9 +33,7 @@ function Compte(props) {
                 <Form.Label htmlFor="inputPassword5">Password</Form.Label>
                 {/* <Form.Control value={props.user.password} type="password" /> */}
                 <div className="display-flex">
-                  <Button className="w-50" variant="primary">
-                    Modifier
-                  </Button>{" "}
+                  <Button className="w-50">Modifier</Button> <br />
                   <Form.Text id="passwordHelpBlock" muted>
                     hello bitch dab tema le dab
                   </Form.Text>
