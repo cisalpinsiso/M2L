@@ -38,7 +38,7 @@ app.get('/api/user', (req, res) => {
     } else {
         res.send({ 'success': false, 'message': 'Non connecté' });
     }
-});
+}); 
 
 app.get('/api/equipes', (req, res) => {
     pool.query('SELECT * FROM equipe', (err, rows) => {
