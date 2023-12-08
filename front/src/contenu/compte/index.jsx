@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 
 function Compte(props) {
   console.log(props.user);
+  console.log(props.panier);
   return (
     <div className="compte">
       <Accordion>
@@ -17,7 +18,7 @@ function Compte(props) {
           </Accordion.Header>
           <Accordion.Body>
             <h4>
-              Fonction : <strong>{props.user.fonction}</strong>
+              Fonction : <strong>{props.user && props.user.fonction}</strong>
             </h4>
             <Form>
               <Form.Group
@@ -25,11 +26,20 @@ function Compte(props) {
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Address Email</Form.Label>
-                <Form.Control type="email" placeholder={props.user.email} />
+                <Form.Control
+                  type="email"
+                  placeholder={props.user && props.user.email}
+                />
                 <Form.Label>Nom</Form.Label>
-                <Form.Control type="" placeholder={props.user.mdp} />
+                <Form.Control
+                  type=""
+                  placeholder={props.user && props.user.nom}
+                />
                 <Form.Label>Prenom</Form.Label>
-                <Form.Control type="email" placeholder={props.user.prenom} />
+                <Form.Control
+                  type="email"
+                  placeholder={props.user && props.user.prenom}
+                />
                 <Form.Label htmlFor="inputPassword5">Password</Form.Label>
                 {/* <Form.Control value={props.user.password} type="password" /> */}
                 <div className="display-flex">
@@ -55,6 +65,16 @@ function Compte(props) {
             reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
             culpa qui officia deserunt mollit anim id est laborum.
+          </Accordion.Body>
+        </Accordion.Item>
+        <Accordion.Item className="Accordion.Item" eventKey="5">
+          <Accordion.Header>
+            <i className="bi bi-box"></i>
+            Panier
+          </Accordion.Header>
+          <Accordion.Body>
+            <p>{props.panier.nom}</p>
+            <p>{props.panier.length}</p>
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="3">
