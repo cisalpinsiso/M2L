@@ -44,6 +44,47 @@ app.get("/api/user", (req, res) => {
   }
 });
 
+app.post("/api/user", (req, res) => {
+    if (!req.session.user) {
+        res.send({ success: false, message: "Non connecté" });
+        return;
+    }
+
+    const { nom, prenom, email, password } = req.body;
+
+    if (!nom || !prenom || !email || !password) {
+        res.send({ success: false, message: "Veuillez remplir tous les champs" });
+        return;
+    }
+
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        res.send({ success: false, message: "Email invalide" });
+        return;
+    }
+
+    const id = req.session.user.id;
+
+    pool.query("SELECT * FROM utilisateur WHERE id = ?", [id], (err, rows) => {
+        if (err) {
+            res.send({ success: false, message: err });
+        } else {
+            bcrypt.compare(password, rows[0].mdp, (err, result) => {
+                if (result) {
+                    pool.query("UPDATE utilisateur SET nom = ?, prenom = ?, email = ? WHERE id = ?", [nom, prenom, email, id], (err, rows) => {
+                        if (err) {
+                            res.send({ success: false, message: err });
+                        } else {
+                            res.send({ success: true, message: "success" });
+                        }
+                    });
+                } else {
+                    res.send({ success: false, message: "Mot de passe incorrect" });
+                }
+            });
+        }
+    });
+});
+
 app.get("/api/equipes", (req, res) => {
   pool.query("SELECT * FROM equipe", (err, rows) => {
     if (err) {

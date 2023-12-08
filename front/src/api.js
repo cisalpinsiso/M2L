@@ -17,6 +17,10 @@ const api = {
     return axios.get('/api/user');
   },
 
+  updateUser(nom, prenom, email, password) {
+    return axios.post('/api/user', { nom, prenom, email, password });
+  },
+
   getEquipes() {
     return axios.get('/api/equipes');
   },
