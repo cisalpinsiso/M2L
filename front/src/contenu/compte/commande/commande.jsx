@@ -33,7 +33,7 @@ const CommandePage = () => {
 
             <div className="blockcard">
               {commande.produits.map((product, index) => (
-                <div className="card-body" key={index}>
+                <div className="card-bodynew" key={index}>
                   <div className="d-flex align-items-center ">
                     <img className="imagecommande" src={product.image} alt="" />{" "}
                     <p className="nbcommande">{product.quantity} X</p>
