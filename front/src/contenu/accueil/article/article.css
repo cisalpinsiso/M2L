@@ -54,9 +54,8 @@
 }
 
 .article:hover {
-  transform: scale(1.03); /* Agrandit légèrement la carte */
+  transform: scale(1.00); /* Agrandit légèrement la carte */
   z-index: 10; /* S'assure que la carte survolée passe au-dessus des autres */
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
 .article:not(:hover) {
   transform: scale(0.97); /* Réduit légèrement les cartes qui ne sont pas survolées */

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './articleurl.css';
 
 function ArticleUrl(props) {
@@ -11,8 +11,9 @@ function ArticleUrl(props) {
 
   return (
     <div className='containerArticleUrl'>
-      <h2 className='titreArticleUrl'>{article.titre}</h2>
+      <h5><Link to='/'><i className="bi bi-arrow-left"></i> Retour aux actualités</Link></h5>
       <img className='imageArticleUrl' src={article.image} alt={`Article titled: ${article.titre}`} />
+      <h2 className='titreArticleUrl'>{article.titre}</h2>
       <p>{article.texte}</p>
       {/* autres détails de l'article */}
     </div>

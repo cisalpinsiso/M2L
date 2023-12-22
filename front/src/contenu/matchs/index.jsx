@@ -30,7 +30,7 @@ function Matchs(props) {
 
   return (
     <div className="matchs">
-      <h3>Matchs à venir</h3>
+      <h3 class="mb-4">Matchs à venir</h3>
       <table className="table table-striped overflow-hidden rounded-4">
         <thead>
           <tr>
