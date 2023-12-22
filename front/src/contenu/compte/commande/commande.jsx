@@ -21,29 +21,35 @@ const CommandePage = () => {
 
     fetchCommandes();
   }, []);
-  console.log(commandes);
-  console.log(commandes.produits);
+  
   return (
     <div>
       {commandes &&
         commandes.map((commande, index) => (
           <div className="cont" key={index}>
-            <p>Commande effectue le : {commande.date}</p>
-            <p>Produits commander:</p>
-
-            <div className="blockcard">
-              {commande.produits.map((product, index) => (
-                <div className="card-bodynew" key={index}>
-                  <div className="d-flex align-items-center ">
-                    <img className="imagecommande" src={product.image} alt="" />{" "}
-                    <p className="nbcommande">{product.quantity} X</p>
-                  </div>
-
-                  <h5>{product.prix} €</h5>
-                  <p className="descriptionproduits">{product.description}</p>
-                </div>
-              ))}
-            </div>
+            <p className="p-2">Commande effectuée le : <span className="fw-bold">{commande.date}</span></p>
+            <table className="table rounded-4 m-0">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Quantité</th>
+                  <th>Prix</th>
+                </tr>
+              </thead>
+              <tbody>
+                {commande.produits.map((produit, index) => (
+                  <tr key={index}>
+                    <td><img src={produit.image} alt="" /> {produit.nom}</td>
+                    <td>{produit.quantity}</td>
+                    <td>{produit.prix} €</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td colSpan="2" className="text-end border-bottom-0">Total</td>
+                  <td className="border-bottom-0">{commande.produits.reduce((acc, produit) => acc + produit.prix * produit.quantity, 0)} €</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         ))}
     </div>

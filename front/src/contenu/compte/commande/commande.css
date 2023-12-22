@@ -14,7 +14,7 @@
   border-radius: 20px;
   height: auto;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1rem;
 }
 .blockcard {
@@ -61,4 +61,11 @@
   -ms-transform: scale(1);
   -o-transform: scale(1);
   transform: scale(1);
+}
+
+.cont img {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  margin-right: 10px;
 }
