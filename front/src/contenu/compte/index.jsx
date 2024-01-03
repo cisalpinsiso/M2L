@@ -133,7 +133,7 @@ function Compte(props) {
                       <Button
                         variant="primary"
                         onClick={() => {
-                          api.updatePassword( oldpassword, newpassword , confirmpassword);
+                          api.updatePassword( oldPassword, newpassword , confirmpassword);
                         }}
                         className=" mt-4 w-50"
                       >
