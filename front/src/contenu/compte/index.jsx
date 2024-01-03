@@ -5,6 +5,7 @@ import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CommandePage from "./commande/commande";
+import api from "../../api";
 
 function Compte(props) {
   const [email, setEmail] = useState("");
@@ -13,6 +14,9 @@ function Compte(props) {
   const [password, setPassword] = useState("");
   const [modifie, setModifie] = useState(false);
   const [mdpmodifie, setMdpodifie] = useState(false);
+  const [oldpassword, setOldPassword] = useState("");
+  const [newpassword, setNewPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
 
   // Mise à jour de l'état local lorsque les props changent
   useEffect(() => {
@@ -20,7 +24,6 @@ function Compte(props) {
       setEmail(props.user.email || "");
       setNom(props.user.nom || "");
       setPrenom(props.user.prenom || "");
-      setPassword(props.user.password || ""); // Soyez prudent avec les mots de passe
     }
   }, [props.user]);
 
@@ -57,6 +60,7 @@ function Compte(props) {
                     type="email"
                     value={email}
                     onChange={handleChange(setEmail)}
+                    name="email"
                   />
 
                   <Form.Label>Nom</Form.Label>
@@ -64,6 +68,7 @@ function Compte(props) {
                     type="text"
                     value={nom}
                     onChange={handleChange(setNom)}
+                    name="nom"
                   />
 
                   <Form.Label>Prénom</Form.Label>
@@ -71,12 +76,13 @@ function Compte(props) {
                     type="text"
                     value={prenom}
                     onChange={handleChange(setPrenom)}
+                    name="prenom"
                   />
                   {modifie && (
                     <Button
                       variant="primary"
                       onClick={() => {
-                        /* Logique de confirmation ici */
+                        api.updateUser(nom, prenom, email);
                       }}
                       className="fade-in mt-4 w-50"
                     >
@@ -106,18 +112,29 @@ function Compte(props) {
                   {mdpmodifie && (
                     <div className="fade-in">
                       <Form.Label>Ancien mot de passe </Form.Label>
-                      <Form.Control type="text" />
+                      <Form.Control 
+                      value={password}
+                      onChange={handleChange(setPassword)}
+
+                      type="password" />
 
                       <Form.Label>Nouveau mot de passe</Form.Label>
-                      <Form.Control type="password" />
-                      <Form.Label>Confirmer le nouveau mot de passe</Form.Label>
-                      <Form.Control type="password" />
+                      <Form.Control 
+                      value={newpassword}
+                      onChange={handleChange(setNewPassword)}
+                      type="password" />
+                      <Form.Label
+                      >Confirmer le nouveau mot de passe</Form.Label>
+                      <Form.Control
+                      value={confirmpassword}
+                      onChange={handleChange(setConfirmPassword)}
+                       type="password" />
                       <br />
 
                       <Button
                         variant="primary"
                         onClick={() => {
-                          /* Logique de confirmation ici */
+                          api.updatePassword( oldpassword, newpassword , confirmpassword)));
                         }}
                         className=" mt-4 w-50"
                       >

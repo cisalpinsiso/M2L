@@ -249,6 +249,7 @@ app.get('/api/articles', (req, res) => {
     });
 });
 
+
 app.get("/api/produits", (req, res) => {
   pool.query("SELECT * FROM stock", (err, rows) => {
     if (err) {
