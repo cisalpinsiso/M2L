@@ -12,8 +12,6 @@ function Compte(props) {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [oldPassword, setOldPassword] = useState("");
-  const [modifie, setModifie] = useState(false);
-  const [mdpmodifie, setMdpodifie] = useState(false);
   const [newpassword, setNewPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
 
@@ -77,17 +75,18 @@ function Compte(props) {
                     onChange={handleChange(setPrenom)}
                     name="prenom"
                   />
-                  {modifie && (
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        api.updateUser(nom, prenom, email);
-                      }}
-                      className="fade-in mt-4 w-50"
-                    >
-                      Confirmer
-                    </Button>
-                  )}
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      api.updateUser(nom, prenom, email).then((res) => {
+                        const data = res.data;
+                        alert(data.message)
+                      });
+                    }}
+                    className="fade-in mt-4 w-50"
+                  >
+                    Confirmer
+                  </Button>
                 </Form.Group>
               </Form>
               <div className="petittraitaccount"></div>
@@ -96,51 +95,38 @@ function Compte(props) {
                   className="mb-3 w-100 p-4"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <br />
-
-                  {mdpmodifie == false && (
-                    <Button
-                      variant="primary"
-                      onClick={changementdemotdepasse}
-                      className="w-100"
-                    >
-                      Modifier votre mot de passe
-                    </Button>
-                  )}
-
-                  {mdpmodifie && (
-                    <div className="fade-in">
-                      <Form.Label>Ancien mot de passe </Form.Label>
-                      <Form.Control 
+                  <div className="fade-in">
+                    <Form.Label>Ancien mot de passe </Form.Label>
+                    <Form.Control
                       value={oldPassword}
                       onChange={handleChange(setOldPassword)}
 
                       type="password" />
 
-                      <Form.Label>Nouveau mot de passe</Form.Label>
-                      <Form.Control 
+                    <Form.Label>Nouveau mot de passe</Form.Label>
+                    <Form.Control
                       value={newpassword}
                       onChange={handleChange(setNewPassword)}
                       type="password" />
-                      <Form.Label
-                      >Confirmer le nouveau mot de passe</Form.Label>
-                      <Form.Control
+                    <Form.Label
+                    >Confirmer le nouveau mot de passe</Form.Label>
+                    <Form.Control
                       value={confirmpassword}
                       onChange={handleChange(setConfirmPassword)}
-                       type="password" />
-                      <br />
-
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          api.updatePassword( oldPassword, newpassword , confirmpassword);
-                        }}
-                        className=" mt-4 w-50"
-                      >
-                        Confirmer
-                      </Button>
-                    </div>
-                  )}
+                      type="password" />
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        api.updatePassword(oldPassword, newpassword, confirmpassword).then((res) => {
+                          const data = res.data;
+                          alert(data.message)
+                        });
+                      }}
+                      className=" mt-4 w-50"
+                    >
+                      Confirmer
+                    </Button>
+                  </div>
                 </Form.Group>
               </Form>
             </div>
