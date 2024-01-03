@@ -11,10 +11,9 @@ function Compte(props) {
   const [email, setEmail] = useState("");
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [password, setPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [modifie, setModifie] = useState(false);
   const [mdpmodifie, setMdpodifie] = useState(false);
-  const [oldpassword, setOldPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
 
@@ -113,8 +112,8 @@ function Compte(props) {
                     <div className="fade-in">
                       <Form.Label>Ancien mot de passe </Form.Label>
                       <Form.Control 
-                      value={password}
-                      onChange={handleChange(setPassword)}
+                      value={oldPassword}
+                      onChange={handleChange(setOldPassword)}
 
                       type="password" />
 
@@ -134,7 +133,7 @@ function Compte(props) {
                       <Button
                         variant="primary"
                         onClick={() => {
-                          api.updatePassword( oldpassword, newpassword , confirmpassword)));
+                          api.updatePassword( oldpassword, newpassword , confirmpassword);
                         }}
                         className=" mt-4 w-50"
                       >
@@ -207,7 +206,7 @@ function Compte(props) {
           ></path>
         </svg>
       </div>
-    </div>
+    </div >
   );
 }
 
