@@ -141,57 +141,16 @@ function Compte(props) {
             <CommandePage />
           </Accordion.Body>
         </Accordion.Item>
-        <Accordion.Item className="Accordion.Item" eventKey="5">
-          <Accordion.Header>
-            <i className="bi bi-box"></i>
-            Panier
-          </Accordion.Header>
-          <Accordion.Body>
-            <div className="display">
-              {props.panier.map((panier) => {
-                return (
-                  <div className="panier">
-                    <img src={panier.image} className="panierimg" alt="" />
-                    <p>{panier.nom}</p>
-                    <p>{panier.prix}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </Accordion.Body>
-        </Accordion.Item>
         <Accordion.Item eventKey="3">
           <Accordion.Header>
             <i className="bi bi-android"></i>
             Application
           </Accordion.Header>
-          <Accordion.Body></Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="4">
-          <Accordion.Header>
-            <i className="bi bi-android"></i>
-            Application
-          </Accordion.Header>
           <Accordion.Body>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            En cours de développement
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <div className="basdepage">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-          <path
-            fill="#FEC817"
-            fill-opacity="1"
-            d="M0,160L80,160C160,160,320,160,480,181.3C640,203,800,245,960,224C1120,203,1280,117,1360,74.7L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-          ></path>
-        </svg>
-      </div>
     </div >
   );
 }
