@@ -432,6 +432,34 @@ app.post("/api/register", (req, res) => {
   });
 });
 
+app.get("/api/joueurs", (req, res) => {
+  // should send the teams and each players inside
+  pool.query("SELECT * FROM equipe", (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      const teams = rows;
+      pool.query("SELECT * FROM utilisateur WHERE fonction = 'joueur'", (err, rows) => {
+        if (err) {
+          res.send({ success: false, message: err });
+        } else {
+          const players = rows;
+          console.log(players)
+          const teamsWithPlayers = teams.map((team) => {
+            const playersInTeam = players.filter((player) => player.id_equipe === team.id);
+            return {
+              ...team,
+              joueurs: playersInTeam,
+            };
+          });
+
+          res.send({ success: true, teams: teamsWithPlayers });
+        }
+      });
+    }
+  })
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });

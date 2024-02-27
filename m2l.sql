@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 08 déc. 2023 à 16:02
--- Version du serveur : 10.4.28-MariaDB
--- Version de PHP : 8.2.4
+-- Généré le : mar. 27 fév. 2024 à 17:10
+-- Version du serveur : 10.4.27-MariaDB
+-- Version de PHP : 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -133,17 +133,6 @@ INSERT INTO `equipe` (`id`, `nom`, `ville`, `sport`, `logo`, `banniere`) VALUES
 (4, 'Horse Riders', 'Manchester', 'foot', '/horseriders.png', 'https://i.insider.com/5fd350fae00bce00188bab82?width=1000&format=jpeg&auto=webp'),
 (5, 'Blue Tail', 'London', 'foot', '/bluetail.png', 'https://deshpee.com/wp-content/uploads/2023/08/image-1.png'),
 (6, 'Black Pirates', 'Milan', 'foot', '/blackpirates.png', 'https://cdn.images.express.co.uk/img/dynamic/67/590x/400172_1.jpg?r=1686998680160');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `joueur`
---
-
-CREATE TABLE `joueur` (
-  `id_utilisateur` int(255) NOT NULL,
-  `id_equipe` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -306,17 +295,75 @@ CREATE TABLE `utilisateur` (
   `prenom` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `mdp` varchar(100) NOT NULL,
-  `fonction` varchar(100) NOT NULL
+  `fonction` varchar(100) NOT NULL,
+  `id_equipe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id`, `nom`, `prenom`, `email`, `mdp`, `fonction`) VALUES
-(2, 'Test', 'Test', 'test@gmail.com', '$2b$10$2g8Kh9Mb1AvP1bYOj0VZJumPdgRGZSgSkY0rsjnP9ErDDLU7e.KPS', 'joueur'),
-(3, 'Test', 'Test', 'test@gmail.com', '$2b$10$.O4HwtAzcAnuUySsCKeAVObZCzjag2GbvnwjBo8fbGqfxH6RpXlSG', 'joueur'),
-(4, 'Test', 'Test', 'test@gmail.com', '$2b$10$E/oc.2VHPZhJsIZGK7Tqi.VR0K8edPp176J9d5LzIk1N.aVQgt.Ce', 'joueur');
+INSERT INTO `utilisateur` (`id`, `nom`, `prenom`, `email`, `mdp`, `fonction`, `id_equipe`) VALUES
+(15, 'Dupont', 'Jean', 'jean.dupont@example.com', 'motdepasse1', 'joueur', 1),
+(16, 'Tremblay', 'Marie', 'marie.tremblay@example.com', 'motdepasse2', 'joueur', 1),
+(17, 'Smith', 'John', 'john.smith@example.com', 'motdepasse3', 'joueur', 1),
+(18, 'Garcia', 'Maria', 'maria.garcia@example.com', 'motdepasse4', 'joueur', 1),
+(19, 'Kim', 'Sung', 'sung.kim@example.com', 'motdepasse5', 'joueur', 1),
+(20, 'Dubois', 'Pierre', 'pierre.dubois@example.com', 'motdepasse6', 'joueur', 1),
+(21, 'Chen', 'Wei', 'wei.chen@example.com', 'motdepasse7', 'joueur', 1),
+(22, 'Ali', 'Mohammed', 'mohammed.ali@example.com', 'motdepasse8', 'joueur', 1),
+(23, 'Silva', 'Ana', 'ana.silva@example.com', 'motdepasse9', 'joueur', 1),
+(24, 'Nguyen', 'Thi', 'thi.nguyen@example.com', 'motdepasse10', 'joueur', 1),
+(25, 'Martinez', 'Carlos', 'carlos.martinez@example.com', 'motdepasse11', 'joueur', 2),
+(26, 'Gonzalez', 'Luis', 'luis.gonzalez@example.com', 'motdepasse12', 'joueur', 2),
+(27, 'Brown', 'Emily', 'emily.brown@example.com', 'motdepasse13', 'joueur', 2),
+(28, 'Johnson', 'Michael', 'michael.johnson@example.com', 'motdepasse14', 'joueur', 2),
+(29, 'Santos', 'Jose', 'jose.santos@example.com', 'motdepasse15', 'joueur', 2),
+(30, 'Lee', 'Ji', 'ji.lee@example.com', 'motdepasse16', 'joueur', 2),
+(31, 'Yilmaz', 'Ayse', 'ayse.yilmaz@example.com', 'motdepasse17', 'joueur', 2),
+(32, 'White', 'Sarah', 'sarah.white@example.com', 'motdepasse18', 'joueur', 2),
+(33, 'Rodriguez', 'David', 'david.rodriguez@example.com', 'motdepasse19', 'joueur', 2),
+(34, 'Wang', 'Li', 'li.wang@example.com', 'motdepasse20', 'joueur', 2),
+(35, 'Gomez', 'Jesus', 'jesus.gomez@example.com', 'motdepasse21', 'joueur', 3),
+(36, 'Jones', 'Emma', 'emma.jones@example.com', 'motdepasse22', 'joueur', 3),
+(37, 'Ahmed', 'Fatima', 'fatima.ahmed@example.com', 'motdepasse23', 'joueur', 3),
+(38, 'Zhang', 'Xiao', 'xiao.zhang@example.com', 'motdepasse24', 'joueur', 3),
+(39, 'Hernandez', 'Juan', 'juan.hernandez@example.com', 'motdepasse25', 'joueur', 3),
+(40, 'Bianchi', 'Giuseppe', 'giuseppe.bianchi@example.com', 'motdepasse26', 'joueur', 3),
+(41, 'Müller', 'Hans', 'hans.muller@example.com', 'motdepasse27', 'joueur', 3),
+(42, 'Kim', 'Young', 'young.kim@example.com', 'motdepasse28', 'joueur', 3),
+(43, 'Rossi', 'Mario', 'mario.rossi@example.com', 'motdepasse29', 'joueur', 3),
+(44, 'Choi', 'Min', 'min.choi@example.com', 'motdepasse30', 'joueur', 3),
+(45, 'Ryan', 'Patrick', 'patrick.ryan@example.com', 'motdepasse31', 'joueur', 4),
+(46, 'Ivanov', 'Dmitri', 'dmitri.ivanov@example.com', 'motdepasse32', 'joueur', 4),
+(47, 'Vasquez', 'Manuel', 'manuel.vasquez@example.com', 'motdepasse33', 'joueur', 4),
+(48, 'Ali', 'Aisha', 'aisha.ali@example.com', 'motdepasse34', 'joueur', 4),
+(49, 'Chen', 'Xin', 'xin.chen@example.com', 'motdepasse35', 'joueur', 4),
+(50, 'Nguyen', 'Hieu', 'hieu.nguyen@example.com', 'motdepasse36', 'joueur', 4),
+(51, 'Smith', 'Emma', 'emma.smith@example.com', 'motdepasse37', 'joueur', 4),
+(52, 'Garcia', 'Luis', 'luis.garcia@example.com', 'motdepasse38', 'joueur', 4),
+(53, 'Johnson', 'Olivia', 'olivia.johnson@example.com', 'motdepasse39', 'joueur', 4),
+(54, 'Martinez', 'Carlos', 'carlos.martinez@example.com', 'motdepasse40', 'joueur', 4),
+(55, 'Tremblay', 'Sophie', 'sophie.tremblay@example.com', 'motdepasse41', 'joueur', 5),
+(56, 'Dubois', 'Jacques', 'jacques.dubois@example.com', 'motdepasse42', 'joueur', 5),
+(57, 'Ali', 'Ahmed', 'ahmed.ali@example.com', 'motdepasse43', 'joueur', 5),
+(58, 'Lee', 'Hyun', 'hyun.lee@example.com', 'motdepasse44', 'joueur', 5),
+(59, 'Chen', 'Yan', 'yan.chen@example.com', 'motdepasse45', 'joueur', 5),
+(60, 'Smith', 'Alex', 'alex.smith@example.com', 'motdepasse46', 'joueur', 5),
+(61, 'Garcia', 'Anna', 'anna.garcia@example.com', 'motdepasse47', 'joueur', 5),
+(62, 'Johnson', 'William', 'william.johnson@example.com', 'motdepasse48', 'joueur', 5),
+(63, 'Martinez', 'Laura', 'laura.martinez@example.com', 'motdepasse49', 'joueur', 5),
+(64, 'Nguyen', 'Anh', 'anh.nguyen@example.com', 'motdepasse50', 'joueur', 5),
+(65, 'Brown', 'Daniel', 'daniel.brown@example.com', 'motdepasse51', 'joueur', 6),
+(66, 'Gonzalez', 'Carlos', 'carlos.gonzalez@example.com', 'motdepasse52', 'joueur', 6),
+(67, 'Kim', 'Hye', 'hye.kim@example.com', 'motdepasse53', 'joueur', 6),
+(68, 'Silva', 'Carlos', 'carlos.silva@example.com', 'motdepasse54', 'joueur', 6),
+(69, 'Wang', 'Chen', 'chen.wang@example.com', 'motdepasse55', 'joueur', 6),
+(70, 'Chen', 'Xue', 'xue.chen@example.com', 'motdepasse56', 'joueur', 6),
+(71, 'Nguyen', 'Linh', 'linh.nguyen@example.com', 'motdepasse57', 'joueur', 6),
+(72, 'Gomez', 'Luis', 'luis.gomez@example.com', 'motdepasse58', 'joueur', 6),
+(73, 'Johnson', 'Sophia', 'sophia.johnson@example.com', 'motdepasse59', 'joueur', 6),
+(74, 'Lee', 'Yeon', 'yeon.lee@example.com', 'motdepasse60', 'joueur', 6);
 
 --
 -- Index pour les tables déchargées
@@ -341,13 +388,6 @@ ALTER TABLE `commande`
 --
 ALTER TABLE `equipe`
   ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `joueur`
---
-ALTER TABLE `joueur`
-  ADD KEY `id_utilisateur` (`id_utilisateur`),
-  ADD KEY `id_equipe` (`id_equipe`);
 
 --
 -- Index pour la table `match_rencontre`
@@ -425,7 +465,7 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- Contraintes pour les tables déchargées
@@ -442,13 +482,6 @@ ALTER TABLE `annonce_global`
 --
 ALTER TABLE `commande`
   ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id`);
-
---
--- Contraintes pour la table `joueur`
---
-ALTER TABLE `joueur`
-  ADD CONSTRAINT `joueur_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id`),
-  ADD CONSTRAINT `joueur_ibfk_2` FOREIGN KEY (`id_equipe`) REFERENCES `equipe` (`id`);
 
 --
 -- Contraintes pour la table `message_equipe`

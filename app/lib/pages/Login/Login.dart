@@ -1,4 +1,5 @@
 import 'package:app/pages/Login/LoginModel.dart';
+import 'package:app/pages/Teams/Teams.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
 import 'package:flutter/material.dart';
@@ -219,7 +220,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   final loginSuccessful = await login(email, password);
 
                                   if (loginSuccessful) {
-                                    
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const TeamsWidget()
+                                      ));
                                     
                                   } else {
                                     // add error message

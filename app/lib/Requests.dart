@@ -34,3 +34,17 @@ Future<bool> getUser() async {
 
   return data;
 }
+
+Future<bool> getTeams() async {
+  final url = Uri.parse('$base_url/teams');
+  final response = await http.get(url, headers: headers);
+
+  final data = jsonDecode(response.body)['teams'];
+  
+  if (data == null) return false;
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('teams', jsonEncode(data));
+
+  return data;
+}
