@@ -1,15 +1,11 @@
-import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
+import 'SplashScreenModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import 'splash_screen_model.dart';
-export 'splash_screen_model.dart';
 
 class SplashScreenWidget extends StatefulWidget {
   const SplashScreenWidget({super.key});
@@ -77,12 +73,12 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBlack,
+      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: Container(
         width: MediaQuery.sizeOf(context).width,
         height: MediaQuery.sizeOf(context).height * 1,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBlack,
+          color: FlutterFlowTheme.of(context).primaryBackground,
           image: DecorationImage(
             fit: BoxFit.fill,
             image: Image.asset(
@@ -151,7 +147,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                                   EdgeInsetsDirectional.fromSTEB(0, 2, 0, 20),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  context.pushNamed('Login');
+                                  Navigator.of(context).pushNamed('Login');
                                 },
                                 text: 'Login',
                                 options: FFButtonOptions(
