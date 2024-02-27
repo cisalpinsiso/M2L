@@ -9,6 +9,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "dsof82445qs*2E",
@@ -18,9 +19,9 @@ app.use(
 );
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_NAME,
+  host: "localhost",
+  user: "root",
+  database: "M2L",
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
   waitForConnections: true,
@@ -306,6 +307,8 @@ app.get("/api/annonces", (req, res) => {
 app.post("/api/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+
+  console.log(email, password);
 
   // check all fields are filled
   if (!email || !password) {

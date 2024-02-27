@@ -1,3 +1,4 @@
+import 'package:app/pages/Login/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'SplashScreenModel.dart';
@@ -147,7 +148,10 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                                   EdgeInsetsDirectional.fromSTEB(0, 2, 0, 20),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  Navigator.of(context).pushNamed('Login');
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginWidget()
+                                    ));
                                 },
                                 text: 'Login',
                                 options: FFButtonOptions(

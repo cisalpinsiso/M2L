@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app/Requests.dart';
+
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
 
@@ -39,7 +41,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,of
+      key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: Form(
         key: _model.formKey,
@@ -211,11 +213,24 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                               child: FFButtonWidget(
                                 onPressed: () async {
+                                  final email = _model.emailTextController.text;
+                                  final password = _model.passwordTextController.text;
 
-                                  Navigator.of(context).pushNamed(
-                                      'myTasks');
+                                  final loginSuccessful = await login(email, password);
+
+                                  if (loginSuccessful) {
+                                    
+                                    
+                                  } else {
+                                    // add error message
+                                    const snackBar = SnackBar(
+                                      content: Text('Login failed'),
+                                    );
+
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }
                                 },
-                                text: 'Login',
+                                text: 'Login',                            
                                 options: FFButtonOptions(
                                   width: 200,
                                   height: 50,
