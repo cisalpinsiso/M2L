@@ -103,10 +103,6 @@ CREATE TABLE `commande` (
 --
 -- Déchargement des données de la table `commande`
 --
-
-INSERT INTO `commande` (`id`, `id_utilisateur`, `produits`, `date`) VALUES
-('4076090b-b547-475a-aa90-289a83f829da', 2, '[{\"id\":1,\"quantity\":4},{\"id\":3,\"quantity\":2}]', '2023-12-08 15:00:16');
-
 -- --------------------------------------------------------
 
 --
