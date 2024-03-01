@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app/pages/Teams/TeamRecord.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,16 +36,13 @@ Future<bool> getUser() async {
   return data;
 }
 
-Future<bool> getTeams() async {
-  final url = Uri.parse('$base_url/teams');
+Future<List<TeamRecord>> getTeams() async {
+  final url = Uri.parse('$base_url/equipes');
   final response = await http.get(url, headers: headers);
 
-  final data = jsonDecode(response.body)['teams'];
-  
-  if (data == null) return false;
+  final data = jsonDecode(response.body)['equipes'];
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('teams', jsonEncode(data));
+  if (data == null || data is! List) return [];
 
-  return data;
+  return data.map<TeamRecord>((item) => TeamRecord.fromJson(item)).toList();
 }

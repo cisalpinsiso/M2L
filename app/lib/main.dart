@@ -1,38 +1,124 @@
+import 'package:app/pages/Player/Player.dart';
 import 'package:app/pages/SplashScreen/SplashScreen.dart';
+import 'package:app/pages/Teams/Teams.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+ValueNotifier<String> currentRoute = ValueNotifier('/');
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+class _MyAppState extends State<MyApp> {
+  int _getSelectedIndex(String route) {
+    switch (route) {
+      case '/teams':
+        return 0;
+      case '/chat':
+        return 1;
+      case '/profile':
+        return 2;
+      default:
+        return 0; // No valid route for navigation bar, hence no tab is active.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+        primaryColor: Colors.orange,
         useMaterial3: true,
       ),
-      home: const SplashScreenWidget()
+      home: Scaffold(
+        body: PopScope(
+          onPopInvoked: (didPop) => {
+            if (didPop) {
+              print("ok"),
+              currentRoute.value = 'teams'
+            }
+          },
+          child: Navigator(
+            key: navigatorKey,
+            initialRoute: '/',
+            onGenerateRoute: (settings) {
+              WidgetBuilder builder = (context) {
+                switch (settings.name) {
+                  case '/':
+                    return const SplashScreenWidget();
+                  case '/teams':
+                    return const TeamsWidget();
+                  case '/player':
+                    return const PlayerWidget();
+                  default:
+                    return const SizedBox.shrink();
+                }
+              };
+              // ... Your switch statement as before ...
+              currentRoute.value =
+                  settings.name ?? '/'; // Update the current route
+              return MaterialPageRoute(builder: builder, settings: settings);
+            },
+          ),
+        ),
+        bottomNavigationBar: ValueListenableBuilder(
+          valueListenable: currentRoute,
+          builder: (context, String route, child) {
+            if (['/', '/splashScreen', '/player'].contains(route)) {
+              return SizedBox
+                  .shrink(); // Hides the navigation bar on the specified routes
+            }
+            // Use the current route to determine the selected index.
+            int selectedIndex = _getSelectedIndex(route);
+            return NavigationBar(
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.sports_football),
+                  label: 'Teams',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.chat),
+                  label: 'Chat',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (int index) {
+                String routeName;
+                switch (index) {
+                  case 0:
+                    routeName = '/teams';
+                    break;
+                  case 1:
+                    routeName = '/chat';
+                    break;
+                  case 2:
+                    routeName = '/profile';
+                    break;
+                  default:
+                    return;
+                }
+                navigatorKey.currentState?.pushReplacementNamed(routeName);
+                currentRoute.value = routeName; // Ensure the route is updated.
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }

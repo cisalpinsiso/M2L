@@ -2,11 +2,7 @@ import 'package:app/pages/Login/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'SplashScreenModel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class SplashScreenWidget extends StatefulWidget {
   const SplashScreenWidget({super.key});
@@ -36,15 +32,15 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
           curve: Curves.easeInOut,
           delay: 250.ms,
           duration: 600.ms,
-          begin: Offset(0, 64),
-          end: Offset(0, 0),
+          begin: const Offset(0, 64),
+          end: const Offset(0, 0),
         ),
         ScaleEffect(
           curve: Curves.easeInOut,
           delay: 250.ms,
           duration: 600.ms,
-          begin: Offset(1, 0),
-          end: Offset(1, 1),
+          begin: const Offset(1, 0),
+          end: const Offset(1, 1),
         ),
       ],
     ),
@@ -88,7 +84,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
           ),
         ),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -101,15 +97,15 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Align(
-                      alignment: AlignmentDirectional(0, 0),
+                      alignment: const AlignmentDirectional(0, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              'https://cdn.discordapp.com/attachments/1032954052922839070/1206977200344145990/logo.png?ex=65ddf81d&is=65cb831d&hm=5b6cd9de354ce4da7805f78dca198e06dcc0f325bdad611e74cb998aa82c4ba4&',
+                            child: Image.asset(
+                              'assets/images/logo.png',
                               width: 154,
                               height: 95,
                               fit: BoxFit.cover,
@@ -123,6 +119,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                                   fontFamily: 'Readex Pro',
                                   fontSize: 34,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.white
                                 ),
                           ),
                         ],
@@ -139,16 +136,16 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 2, 0, 20),
+                                  const EdgeInsetsDirectional.fromSTEB(0, 2, 0, 20),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  Navigator.of(context).push(
+                                  Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => const LoginWidget()
                                     ));
@@ -157,9 +154,9 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                                 options: FFButtonOptions(
                                   width: 200,
                                   height: 50,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 0),
                                   color: FlutterFlowTheme.of(context).primary,
                                   textStyle: FlutterFlowTheme.of(context)
@@ -170,7 +167,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                                         fontWeight: FontWeight.bold,
                                       ),
                                   elevation: 3,
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
                                   ),

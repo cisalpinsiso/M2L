@@ -220,16 +220,6 @@ app.get("/api/commandes", (req, res) => {
     });
 });
 
-app.get("/api/equipes", (req, res) => {
-  pool.query("SELECT * FROM equipe", (err, rows) => {
-    if (err) {
-      res.send({ success: false, message: err });
-    } else {
-      res.send({ success: true, equipes: rows });
-    }
-  });
-});
-
 app.get('/api/articles', (req, res) => {
     pool.query('SELECT * FROM article', (err, rows) => {
         if (err) {
@@ -397,8 +387,8 @@ app.post("/api/register", (req, res) => {
       res.send({ success: false, message: err });
     } else {
       pool.query(
-        "INSERT INTO utilisateur (nom, prenom, email, mdp, fonction) VALUES (?, ?, ?, ?, ?)",
-        [nom, prenom, email, hash, "joueur"],
+        "INSERT INTO utilisateur (nom, prenom, email, mdp, fonction, id_equipe) VALUES (?, ?, ?, ?, ?, ?)",
+        [nom, prenom, email, hash, "joueur", null],
         (err, result) => {
           if (err) {
             res.send({ success: false, message: err });
@@ -432,8 +422,7 @@ app.post("/api/register", (req, res) => {
   });
 });
 
-app.get("/api/joueurs", (req, res) => {
-  // should send the teams and each players inside
+app.get("/api/equipes", (req, res) => {
   pool.query("SELECT * FROM equipe", (err, rows) => {
     if (err) {
       res.send({ success: false, message: err });
@@ -453,7 +442,7 @@ app.get("/api/joueurs", (req, res) => {
             };
           });
 
-          res.send({ success: true, teams: teamsWithPlayers });
+          res.send({ success: true, equipes: teamsWithPlayers });
         }
       });
     }

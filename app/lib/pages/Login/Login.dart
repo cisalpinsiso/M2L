@@ -3,8 +3,6 @@ import 'package:app/pages/Teams/Teams.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import 'package:app/Requests.dart';
 
@@ -61,8 +59,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                       color: FlutterFlowTheme.of(context).primaryBackground,
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: Image.network(
-                          'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxmb290YmFsbHxlbnwwfHx8fDE3MDc4MjEyMTV8MA&ixlib=rb-4.0.3&q=80&w=1080',
+                        image: Image.asset(
+                          'assets/images/banner.jpg',
                         ).image,
                       ),
                     ),
@@ -70,14 +68,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ],
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -92,7 +90,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     .bodyMedium
                                     .override(
                                       fontFamily: 'Readex Pro',
-                                      color: Color(0x9AFFFFFF),
+                                      color: const Color(0x9AFFFFFF),
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -103,21 +101,21 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 0,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 0,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 0,
                                   ),
@@ -138,7 +136,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ),
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                               child: TextFormField(
                                 controller: _model.passwordTextController,
                                 focusNode: _model.textFieldFocusNode2,
@@ -150,7 +148,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       .bodyMedium
                                       .override(
                                         fontFamily: 'Readex Pro',
-                                        color: Color(0x9AFFFFFF),
+                                        color: const Color(0x9AFFFFFF),
                                       ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -161,21 +159,21 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 0,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 0,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 0,
                                     ),
@@ -198,7 +196,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       _model.passwordVisibility
                                           ? Icons.visibility_outlined
                                           : Icons.visibility_off_outlined,
-                                      color: Color(0x80FFFFFF),
+                                      color: const Color(0x80FFFFFF),
                                       size: 22,
                                     ),
                                   ),
@@ -211,7 +209,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ),
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                               child: FFButtonWidget(
                                 onPressed: () async {
                                   final email = _model.emailTextController.text;
@@ -220,10 +218,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   final loginSuccessful = await login(email, password);
 
                                   if (loginSuccessful) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => const TeamsWidget()
-                                      ));
+                                    Navigator.of(context).pushReplacementNamed('/teams');
                                     
                                   } else {
                                     // add error message
@@ -238,9 +233,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 options: FFButtonOptions(
                                   width: 200,
                                   height: 50,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 0),
                                   color: FlutterFlowTheme.of(context).primary,
                                   textStyle: FlutterFlowTheme.of(context)
@@ -251,7 +246,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                   elevation: 3,
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
                                   ),
@@ -261,14 +256,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ),
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 44, 0, 30),
+                                  const EdgeInsetsDirectional.fromSTEB(0, 44, 0, 30),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 6),
                                     child: Text(
                                       'Don’t have an account yet? ',
