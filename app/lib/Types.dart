@@ -63,3 +63,26 @@ class TeamJoueur {
     required this.id_equipe,
   });
 }
+
+class Message {
+  final int id;
+  final String message;
+  final int date;
+  final TeamJoueur auteur;
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      id: json['id'],
+      message: json['message'],
+      date: json['date'],
+      auteur: TeamJoueur.fromJson(json['auteur']),
+    );
+  }
+
+  Message({
+    required this.id,
+    required this.message,
+    required this.date,
+    required this.auteur,
+  });
+}

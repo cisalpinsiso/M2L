@@ -1,7 +1,7 @@
 import 'package:app/Requests.dart'; // Assuming this contains getTeams()
 import 'package:app/main.dart';
 import 'package:app/pages/Player/PlayerModel.dart';
-import 'package:app/pages/Teams/TeamRecord.dart';
+import 'package:app/Types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
@@ -43,6 +43,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           key: scaffoldKey,
           appBar: AppBar(
             title: Text("${player.prenom} ${player.nom}", style: FlutterFlowTheme.of(context).titleLarge),
+            
           ),
           // make a chat interface
           body: Column(

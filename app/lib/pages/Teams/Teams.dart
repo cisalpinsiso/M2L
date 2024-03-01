@@ -1,5 +1,5 @@
 import 'package:app/Requests.dart';
-import 'package:app/pages/Teams/TeamRecord.dart';
+import 'package:app/Types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter_animate/flutter_animate.dart';
