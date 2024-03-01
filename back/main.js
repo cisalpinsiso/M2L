@@ -253,7 +253,7 @@ app.get("/api/produits", (req, res) => {
 
 app.delete("/api/produits/:id", (req, res) => {
   const id = req.params.id;
-  pool.query("DELETE FROM produits WHERE id = ?", [id], (err, rows) => {
+  pool.query("DELETE FROM stock WHERE id = ?", [id], (err, rows) => {
     if (err) {
       res.send({ success: false, message: err });
     } else {
@@ -269,7 +269,7 @@ app.post("/api/produits", (req, res) => {
   const description = req.body.description;
   const id = uuid.v4();
   pool.query(
-    "INSERT INTO produits (nom, quantite, prix, description, id) VALUES (?, ?, ?, ?, ?)",
+    "INSERT INTO stock (nom, quantite, prix, description, id) VALUES (?, ?, ?, ?, ?)",
     [nom, quantite, prix, description, id],
     (err, rows) => {
       if (err) {
@@ -279,6 +279,68 @@ app.post("/api/produits", (req, res) => {
       }
     }
   );
+});
+
+app.post("/api/produits/:id/like", (req, res) => {
+  if (!req.session.user) {
+    res.send({ success: false, message: "Non connecté" });
+    return;
+  }
+  
+  const id = req.params.id;
+  pool.query("SELECT * FROM likes WHERE user_id = ? AND product_id = ?", [req.session.user.id, id], (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      if (rows.length > 0) {
+        res.send({ success: false, message: "Vous avez déjà liké ce produit" });
+      } else {
+        pool.query("INSERT INTO likes (user_id, product_id) VALUES (?, ?)", [req.session.user.id, id], (err, rows) => {
+          if (err) {
+            res.send({ success: false, message: err });
+          } else {
+            res.send({ success: true, message: "success" });
+          }
+        });
+      }
+    }
+  })
+})
+
+app.post("/api/produits/:id/dislike", (req, res) => {
+  if (!req.session.user) {
+    res.send({ success: false, message: "Non connecté" });
+    return;
+  }
+  
+  const id = req.params.id;
+  pool.query("DELETE FROM likes WHERE user_id = ? AND product_id = ?", [req.session.user.id, id], (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      res.send({ success: true, message: "success" });
+    }
+  });
+});
+
+app.get("/api/produits/:id", (req, res) => {
+  const id = req.params.id;
+  pool.query("SELECT * FROM stock WHERE id = ?", [id], (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      pool.query("SELECT * FROM likes WHERE product_id = ?", [id], (err, likesRows) => {
+        if (err) {
+          res.send({ success: false, message: err });
+        } else {
+          const product = rows[0];
+          const likes = likesRows.length;
+          const isLikedByUser = likesRows.find((like) => like.user_id === req.session.user.id);
+          res.send({ success: true, product: { ...product, likes, isLikedByUser: !!isLikedByUser } });
+        }
+      });
+    };
+  });
 });
 
 const annonces = [

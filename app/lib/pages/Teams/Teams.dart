@@ -46,67 +46,72 @@ class _TeamsWidgetState extends State<TeamsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Teams', style: FlutterFlowTheme.of(context).headlineSmall),
-      ),
-      body: FutureBuilder<List<TeamRecord>>(
-        future: _teamsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          } else if (snapshot.hasData) {
-            final teams = snapshot.data!;
-            return ListView.builder(
-                itemCount: teams.length,
-                itemBuilder: (context, index) {
-                  final team = teams[index];
-                  return Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                      child: ExpansionTile(
-                        shape: Border.all(color: Colors.transparent),
-                        title: Text(
-                          team.nom,
-                          style: FlutterFlowTheme.of(context).headlineMedium,
-                        ),
-                        subtitle: Text(
-                          team.ville,
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        leading: CircleAvatar(
-                          backgroundImage: Image.asset(
-                            "assets/images/equipes" + team.logo,
-                          ).image,
-                        ),
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Column(
-                              children: team.joueurs
-                                  .map((player) => ListTile(
-                                        title: Text(player.nom),
-                                        subtitle: Text(player.email),
-                                        onTap: () => {
-                                          currentRoute.value = '/player',
-                                          navigatorKey.currentState?.pushNamed(
-                                              '/player',
-                                              arguments: player)
-                                        }
-                                      ))
-                                  .toList(),
+    return PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text('Teams',
+                style: FlutterFlowTheme.of(context).headlineSmall),
+          ),
+          body: FutureBuilder<List<TeamRecord>>(
+            future: _teamsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (snapshot.hasData) {
+                final teams = snapshot.data!;
+                return ListView.builder(
+                    itemCount: teams.length,
+                    itemBuilder: (context, index) {
+                      final team = teams[index];
+                      return Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          child: ExpansionTile(
+                            shape: Border.all(color: Colors.transparent),
+                            title: Text(
+                              team.nom,
+                              style:
+                                  FlutterFlowTheme.of(context).headlineMedium,
                             ),
-                          ),
-                        ],
-                      ).animateOnPageLoad(
-                          animationsMap['containerOnPageLoadAnimation']!));
-                });
-          } else {
-            return const Center(child: Text("No teams found"));
-          }
-        },
-      ),
-    );
+                            subtitle: Text(
+                              team.ville,
+                              style: FlutterFlowTheme.of(context).bodySmall,
+                            ),
+                            leading: CircleAvatar(
+                              backgroundImage: Image.asset(
+                                "assets/images/equipes" + team.logo,
+                              ).image,
+                            ),
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: Column(
+                                  children: team.joueurs
+                                      .map((player) => ListTile(
+                                          title: Text(
+                                              "${player.prenom} ${player.nom}"),
+                                          subtitle: Text(player.email),
+                                          onTap: () => {
+                                                currentRoute.value = '/player',
+                                                navigatorKey.currentState
+                                                    ?.pushNamed('/player',
+                                                        arguments: player)
+                                              }))
+                                      .toList(),
+                                ),
+                              ),
+                            ],
+                          ).animateOnPageLoad(
+                              animationsMap['containerOnPageLoadAnimation']!));
+                    });
+              } else {
+                return const Center(child: Text("No teams found"));
+              }
+            },
+          ),
+        ));
   }
 }

@@ -12,6 +12,7 @@ function App() {
   const [articles, setArticles] = useState([]);
   const [useAlternateNavbar, setUseAlternateNavbar] = useState(false);
   const [navbarOpen, setNavbarOpen] = useState(true);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     api.getUser().then((res) => {
@@ -37,6 +38,14 @@ function App() {
     })
   }, []);
 
+  useEffect(() => {
+    api.getProduits().then((response) => {
+      if (response.data) {
+        setProducts(response.data);
+      }
+    });
+  }, []);
+
   return (
     <Router>
       <div className='d-flex'>
@@ -48,7 +57,7 @@ function App() {
           </svg>
         </label>
         <Navbar user={user} setUser={setUser} navbarOpen={navbarOpen} useAlternateNavbar={useAlternateNavbar} setUseAlternateNavbar={setUseAlternateNavbar} />
-        <Contenu user={user} equipes={equipes} articles={articles} />
+        <Contenu user={user} equipes={equipes} articles={articles} produits={products} />
       </div>
     </Router>
   );

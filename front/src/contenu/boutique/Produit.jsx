@@ -1,5 +1,6 @@
 import React from "react";
 import "./produit.css";
+import { Link } from "react-router-dom";
 
 function Produit(props) {
   return (
@@ -10,9 +11,9 @@ function Produit(props) {
         <p className="card-text">
           {props.prix}€
         </p>
-        <a href="#" className="btn btn-primary w-100 mt-auto" onClick={() => props.ajoutPanier()}>
-          Ajouter au panier
-        </a>
+        <Link to={`/produit/${props.id}`} className="btn btn-primary mt-auto">
+          Voir le produit
+        </Link>
       </div>
     </div>
   );

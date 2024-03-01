@@ -219,7 +219,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                                   if (loginSuccessful) {
                                     Navigator.of(context).pushReplacementNamed('/teams');
-                                    
                                   } else {
                                     // add error message
                                     const snackBar = SnackBar(

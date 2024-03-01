@@ -16,6 +16,7 @@ Future<bool> login(String email, String password) async {
   final data = jsonDecode(response.body);
   if (data['success']) {
     headers['cookie'] = response.headers['set-cookie']!;
+    getUser();
     return true;
   } else {
     return false;

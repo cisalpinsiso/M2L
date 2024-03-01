@@ -1,15 +1,22 @@
 import 'package:app/pages/Player/Player.dart';
+import 'package:app/pages/Profile/Profile.dart';
 import 'package:app/pages/SplashScreen/SplashScreen.dart';
 import 'package:app/pages/Teams/Teams.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  runApp(MyApp(prefs: prefs));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final SharedPreferences prefs;
+
+  const MyApp({Key? key, required this.prefs}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -34,6 +41,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = widget.prefs;
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -42,42 +50,34 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: PopScope(
-          onPopInvoked: (didPop) => {
-            if (didPop) {
-              print("ok"),
-              currentRoute.value = 'teams'
+        body: Navigator(
+          key: navigatorKey,
+          initialRoute: prefs.get("user") == null ? '/' : '/teams',
+          onGenerateRoute: (settings) {
+            builder(context) {
+              switch (settings.name) {
+                case '/':
+                  return const SplashScreenWidget();
+                case '/teams':
+                  return const TeamsWidget();
+                case '/player':
+                  return const PlayerWidget();
+                case '/profile':
+                  return const MyProfileWidget();
+                default:
+                  return const SizedBox.shrink();
+              }
             }
+            // ... Your switch statement as before ...
+            currentRoute.value = settings.name ?? '/'; // Update the current route
+            return MaterialPageRoute(builder: builder, settings: settings);
           },
-          child: Navigator(
-            key: navigatorKey,
-            initialRoute: '/',
-            onGenerateRoute: (settings) {
-              WidgetBuilder builder = (context) {
-                switch (settings.name) {
-                  case '/':
-                    return const SplashScreenWidget();
-                  case '/teams':
-                    return const TeamsWidget();
-                  case '/player':
-                    return const PlayerWidget();
-                  default:
-                    return const SizedBox.shrink();
-                }
-              };
-              // ... Your switch statement as before ...
-              currentRoute.value =
-                  settings.name ?? '/'; // Update the current route
-              return MaterialPageRoute(builder: builder, settings: settings);
-            },
-          ),
         ),
         bottomNavigationBar: ValueListenableBuilder(
           valueListenable: currentRoute,
           builder: (context, String route, child) {
             if (['/', '/splashScreen', '/player'].contains(route)) {
-              return SizedBox
-                  .shrink(); // Hides the navigation bar on the specified routes
+              return SizedBox.shrink(); // Hides the navigation bar on the specified routes
             }
             // Use the current route to determine the selected index.
             int selectedIndex = _getSelectedIndex(route);
@@ -115,6 +115,7 @@ class _MyAppState extends State<MyApp> {
                 navigatorKey.currentState?.pushReplacementNamed(routeName);
                 currentRoute.value = routeName; // Ensure the route is updated.
               },
+              
             );
           },
         ),

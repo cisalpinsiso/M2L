@@ -45,6 +45,18 @@ const api = {
     return axios.get('/api/articles/');
   },
 
+  likeProduit(id) {
+    return axios.post('/api/produits/' + id + '/like');
+  },
+
+  dislikeProduit(id) {
+    return axios.post('/api/produits/' + id + '/dislike');
+  },
+
+  getProduit(id) {
+    return axios.get('/api/produits/' + id);
+  },
+
   deleteProduit(id) {
     return axios.delete('/api/produits/' + id);
   },
