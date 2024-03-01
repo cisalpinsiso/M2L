@@ -4,6 +4,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(cors());
 
 const pool = mysql.createPool({
   host: "localhost",
