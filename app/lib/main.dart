@@ -61,36 +61,42 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: Navigator(
-          key: navigatorKey,
-          initialRoute: prefs.get("user") == null ? '/' : '/teams',
-          onGenerateRoute: (settings) {
-            builder(context) {
-              switch (settings.name) {
-                case '/':
-                  return const SplashScreenWidget();
-                case '/teams':
-                  return const TeamsWidget();
-                case '/player':
-                  return const PlayerWidget();
-                case '/profile':
-                  return const MyProfileWidget();
-                case '/chats':
-                  return const ChatsWidget();
-                default:
-                  return const SizedBox.shrink();
+        body: PopScope(
+          onPopInvoked: (didPop) => didPop ? null : navigatorKey.currentState?.pop(),
+          child: Navigator(
+            key: navigatorKey,
+            initialRoute: prefs.get("user") == null ? '/' : '/teams',
+            onGenerateRoute: (settings) {
+              builder(context) {
+                switch (settings.name) {
+                  case '/':
+                    return const SplashScreenWidget();
+                  case '/teams':
+                    return const TeamsWidget();
+                  case '/player':
+                    return const PlayerWidget();
+                  case '/profile':
+                    return const MyProfileWidget();
+                  case '/chats':
+                    return const ChatsWidget();
+                  default:
+                    return const SizedBox.shrink();
+                }
               }
-            }
-            // ... Your switch statement as before ...
-            currentRoute.value = settings.name ?? '/'; // Update the current route
-            return MaterialPageRoute(builder: builder, settings: settings);
-          },
+
+              // ... Your switch statement as before ...
+              currentRoute.value =
+                  settings.name ?? '/'; // Update the current route
+              return MaterialPageRoute(builder: builder, settings: settings);
+            },
+          ),
         ),
         bottomNavigationBar: ValueListenableBuilder(
           valueListenable: currentRoute,
           builder: (context, String route, child) {
             if (['/', '/splashScreen', '/player'].contains(route)) {
-              return SizedBox.shrink(); // Hides the navigation bar on the specified routes
+              return SizedBox
+                  .shrink(); // Hides the navigation bar on the specified routes
             }
             // Use the current route to determine the selected index.
             int selectedIndex = _getSelectedIndex(route);
@@ -128,7 +134,6 @@ class _MyAppState extends State<MyApp> {
                 navigatorKey.currentState?.pushReplacementNamed(routeName);
                 currentRoute.value = routeName; // Ensure the route is updated.
               },
-              
             );
           },
         ),

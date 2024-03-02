@@ -72,22 +72,28 @@ class _ChatsWidgetState extends State<ChatsWidget> {
                           child: ListTile(
                             shape: Border.all(color: Colors.transparent),
                             title: Text(
-                              chat.recipientName,
+                              chat.nom,
                               style:
                                   FlutterFlowTheme.of(context).headlineMedium,
                             ),
                             subtitle: Text(
-                              chat.lastMessage,
+                              chat.lastMessage ?? "No message yet",
                               style: FlutterFlowTheme.of(context).bodySmall,
                             ),
-                            leading: CircleAvatar(
-                              backgroundImage: Image.asset(
-                                "assets/images/equipes" + chat.logo,
-                              ).image,
-                            ),
+                            leading: chat.type == "team" ?
+                              CircleAvatar(
+                                backgroundImage: Image.asset(
+                                  "assets/images/equipes" + (chat.logo as String)
+                                ).image,
+                              ) : null,
                             onTap: () {
-                              Navigator.pushNamed(context, '/player',
-                                  arguments: chat.recipientId);
+                              currentRoute.value = '/player';
+                              navigatorKey.currentState?.pushNamed('/player',
+                                  arguments: {
+                                    'isGroup': true,
+                                    'previousPage': '/chats',
+                                    'data': chat,
+                                  });
                             },
                           ).animateOnPageLoad(
                               animationsMap['containerOnPageLoadAnimation']!));

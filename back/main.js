@@ -47,14 +47,13 @@ io.on("connection", socket => {
   });
 
   socket.on("message", (data) => {
-    const { recipientId, message } = data;
+    const { recipientId, message, isGroup } = data;
     if (!recipientId || !message || !socket.request.session.user) {
       return;
     }
 
     const senderId = socket.request.session.user.id;
 
-    const recipientSocketId = userToSocketIdMap[recipientId];
     const senderSocketId = userToSocketIdMap[senderId];
 
     // get author info
@@ -73,14 +72,27 @@ io.on("connection", socket => {
         },
       }
 
-      if (recipientSocketId) {
-        messageToSend.isCurrentUser = false;
-        io.to(recipientSocketId).emit("message", messageToSend);
-      }
-
-      if (senderSocketId) {
+      if (senderId) {
         messageToSend.isCurrentUser = true;
         io.to(senderSocketId).emit("message", messageToSend);
+      }
+
+      if (isGroup) {
+        pool.query("SELECT * FROM utilisateur WHERE id_equipe = ?", [recipientId], (err, rows) => {
+          rows.forEach((user) => {
+            if (user.id !== senderId) {
+              const recipientSocketId = userToSocketIdMap[user.id];
+              if (recipientSocketId) {
+                io.to(recipientSocketId).emit("message", messageToSend);
+              }
+            }
+          });
+        });
+      } else {
+        const recipientSocketId = userToSocketIdMap[recipientId];
+        if (recipientSocketId) {
+          io.to(recipientSocketId).emit("message", messageToSend);
+        }
       }
     });
   });
@@ -92,11 +104,6 @@ io.on("connection", socket => {
 
   socket.on("leave room", (room) => {
     socket.leave(room);
-  })
-
-  socket.on("room message", (room, msg) => {
-    console.log("room message", room, msg);
-    socket.to(room).emit("room message", socket.id, msg);
   })
 
   socket.on("disconnect", () => {
@@ -627,13 +634,13 @@ app.get("/api/chats", (req, res) => {
               success: true,
               chats: [
                 {
-                  logo: team.logo,
-                  recipientName: team.nom,
-                  recipientId: team.id,
-                  recipientType: "team",
-                  lastMessage: "Bienvenue dans votre équipe",
-                  lastMessageDate: Date.now(),
-                },
+                  "type": "team",
+                  "id": team.id,
+                  "nom": team.nom,
+                  "logo": team.logo,
+                  "lastMessage": "",
+                  "lastMessageDate": "",
+                }
               ],
             });
           }

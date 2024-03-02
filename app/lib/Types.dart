@@ -89,31 +89,31 @@ class Message {
 
 
 class Chat {
-  final String logo;
-  final String recipientName;
-  final int recipientId;
-  final String recipientType;
-  final String lastMessage;
-  final int lastMessageDate;
+  final String type;
+  final int id;
+  final String nom;
+  final String? lastMessage;
+  final int? lastMessageDate;
+  final String? logo;
 
   Chat({
-    required this.logo,
-    required this.recipientName,
-    required this.recipientId,
-    required this.recipientType,
-    required this.lastMessage,
-    required this.lastMessageDate,
+    required this.type,
+    required this.id,
+    required this.nom,
+    this.lastMessage,
+    this.lastMessageDate,
+    this.logo,
   });
 
 
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat(
-      logo: json['logo'],
-      recipientName: json['recipientName'],
-      recipientId: json['recipientId'],
-      recipientType: json['recipientType'],
+      type: json['type'],
+      id: json['id'],
+      nom: json['nom'],
       lastMessage: json['lastMessage'],
       lastMessageDate: json['lastMessageDate'],
+      logo: json['logo'],
     );
   }
 }

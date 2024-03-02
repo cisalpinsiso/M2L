@@ -84,6 +84,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     socket.on('message', (data) {
       print("Received message: $data");
 
+      if (!mounted) return;
+      
       final message = Message(
         id: data['id'],
         content: data['content'],
@@ -101,11 +103,12 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     socket.connect();
   }
 
-  void _sendPrivateMessage(String messageText, int recipientId) async {
+  void _sendPrivateMessage(String messageText, int recipientId, isGroup) {
     if (messageText.isNotEmpty) {
       final messageData = {
         'recipientId': recipientId,
         'message': messageText,
+        'isGroup': isGroup,
       };
 
       socket.emit('message', messageData);
@@ -116,6 +119,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
 
   @override
   void dispose() {
+    print("disposing player widget");
     socket.disconnect();
     _model.dispose();
     super.dispose();
@@ -124,17 +128,30 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   @override
   Widget build(BuildContext context) {
     // get player argument
-    final player = ModalRoute.of(context)!.settings.arguments as TeamJoueur;
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final isGroup = args['isGroup'] as bool;
+    final previousPage = args['previousPage'];
+    final data = args['data'];
 
+    print("building player");
     return PopScope(
       onPopInvoked: (data) {
-        currentRoute.value = "/teams";
+        currentRoute.value = previousPage;
       },
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          title: Text("${player.prenom} ${player.nom}",
-              style: FlutterFlowTheme.of(context).titleLarge),
+          title: Text(isGroup ? "Group Chat" : "${data.prenom} ${data.nom}",
+          style: FlutterFlowTheme.of(context).titleLarge),
+          automaticallyImplyLeading: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                // Delete the player
+              },
+            )
+          ]
         ),
         body: Column(
           children: [
@@ -164,7 +181,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   IconButton(
                     icon: Icon(Icons.send),
                     onPressed: () {
-                      _sendPrivateMessage(_messageController.text, player.id);
+                      _sendPrivateMessage(_messageController.text, data.id, isGroup);
                     },
                   ),
                 ],

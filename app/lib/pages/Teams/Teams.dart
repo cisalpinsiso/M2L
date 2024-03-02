@@ -98,7 +98,11 @@ class _TeamsWidgetState extends State<TeamsWidget> {
                                                 currentRoute.value = '/player',
                                                 navigatorKey.currentState
                                                     ?.pushNamed('/player',
-                                                        arguments: player)
+                                                        arguments: {
+                                                          'data': player,
+                                                          'previousPage': '/teams',
+                                                          'isGroup': false,
+                                                        })
                                               }))
                                       .toList(),
                                 ),
