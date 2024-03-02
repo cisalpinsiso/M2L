@@ -597,6 +597,54 @@ app.get("/api/equipes", (req, res) => {
   })
 });
 
+app.get("/api/chats", (req, res) => {
+  if (!req.session.user) {
+    res.send({ success: false, message: "Non connecté" });
+    return;
+  }
+
+  // the first chat should be his team if he has one
+  // return format:
+  // final String logo;
+  // final String recipientName;
+  // final String recipientId;
+  // final String recipientType;
+  // final String lastMessage;
+  // final String lastMessageDate;
+
+  pool.query("SELECT * FROM utilisateur WHERE id = ?", [req.session.user.id], (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      const user = rows[0];
+      if (user.id_equipe) {
+        pool.query("SELECT * FROM equipe WHERE id = ?", [user.id_equipe], (err, rows) => {
+          if (err) {
+            res.send({ success: false, message: err });
+          } else {
+            const team = rows[0];
+            res.send({
+              success: true,
+              chats: [
+                {
+                  logo: team.logo,
+                  recipientName: team.nom,
+                  recipientId: team.id,
+                  recipientType: "team",
+                  lastMessage: "Bienvenue dans votre équipe",
+                  lastMessageDate: Date.now(),
+                },
+              ],
+            });
+          }
+        });
+      } else {
+        res.send({ success: true, chats: [] });
+      }
+    }
+  });
+});
+
 app.get("/api/private-messages/:userId1/:userId2", async (req, res) => {
   const userId1 = req.params.userId1;
   const userId2 = req.params.userId2;

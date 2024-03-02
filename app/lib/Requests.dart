@@ -56,6 +56,17 @@ Future<List<TeamRecord>> getTeams() async {
   return data.map<TeamRecord>((item) => TeamRecord.fromJson(item)).toList();
 }
 
+Future<List<Chat>> getChats() async {
+  final url = Uri.parse('$base_url/chats');
+  final response = await http.get(url, headers: headers);
+
+  final data = jsonDecode(response.body)['chats'];
+
+  if (data == null || data is! List) return [];
+
+  return data.map<Chat>((item) => Chat.fromJson(item)).toList();
+}
+
 Future<List<Message>> getMessages(int id) async {
   final url = Uri.parse('$base_url/messages/$id');
   final response = await http.get(url, headers: headers);

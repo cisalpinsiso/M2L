@@ -1,4 +1,5 @@
 import 'package:app/Requests.dart';
+import 'package:app/pages/Chats/Chats.dart';
 import 'package:app/pages/Player/Player.dart';
 import 'package:app/pages/Profile/Profile.dart';
 import 'package:app/pages/SplashScreen/SplashScreen.dart';
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
     switch (route) {
       case '/teams':
         return 0;
-      case '/chat':
+      case '/chats':
         return 1;
       case '/profile':
         return 2;
@@ -74,6 +75,8 @@ class _MyAppState extends State<MyApp> {
                   return const PlayerWidget();
                 case '/profile':
                   return const MyProfileWidget();
+                case '/chats':
+                  return const ChatsWidget();
                 default:
                   return const SizedBox.shrink();
               }
@@ -114,7 +117,7 @@ class _MyAppState extends State<MyApp> {
                     routeName = '/teams';
                     break;
                   case 1:
-                    routeName = '/chat';
+                    routeName = '/chats';
                     break;
                   case 2:
                     routeName = '/profile';

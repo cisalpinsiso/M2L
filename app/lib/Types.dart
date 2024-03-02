@@ -86,3 +86,34 @@ class Message {
     required this.isCurrentUser,
   });
 }
+
+
+class Chat {
+  final String logo;
+  final String recipientName;
+  final int recipientId;
+  final String recipientType;
+  final String lastMessage;
+  final int lastMessageDate;
+
+  Chat({
+    required this.logo,
+    required this.recipientName,
+    required this.recipientId,
+    required this.recipientType,
+    required this.lastMessage,
+    required this.lastMessageDate,
+  });
+
+
+  factory Chat.fromJson(Map<String, dynamic> json) {
+    return Chat(
+      logo: json['logo'],
+      recipientName: json['recipientName'],
+      recipientId: json['recipientId'],
+      recipientType: json['recipientType'],
+      lastMessage: json['lastMessage'],
+      lastMessageDate: json['lastMessageDate'],
+    );
+  }
+}
