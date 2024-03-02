@@ -37,9 +37,8 @@ class TeamJoueur {
   final String nom;
   final String prenom;
   final String email;
-  final String mdp;
   final String fonction;
-  final int id_equipe;
+  final dynamic id_equipe;
 
   factory TeamJoueur.fromJson(Map<String, dynamic> json) {
     return TeamJoueur(
@@ -47,7 +46,6 @@ class TeamJoueur {
       nom: json['nom'],
       prenom: json['prenom'],
       email: json['email'],
-      mdp: json['mdp'],
       fonction: json['fonction'],
       id_equipe: json['id_equipe'],
     );
@@ -58,31 +56,33 @@ class TeamJoueur {
     required this.nom,
     required this.prenom,
     required this.email,
-    required this.mdp,
     required this.fonction,
     required this.id_equipe,
   });
 }
 
 class Message {
-  final int id;
-  final String message;
+  final String id;
+  final String content;
   final int date;
   final TeamJoueur auteur;
+  final bool isCurrentUser;
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       id: json['id'],
-      message: json['message'],
+      content: json['message'],
       date: json['date'],
       auteur: TeamJoueur.fromJson(json['auteur']),
+      isCurrentUser: json['isCurrentUser'],
     );
   }
 
   Message({
     required this.id,
-    required this.message,
+    required this.content,
     required this.date,
     required this.auteur,
+    required this.isCurrentUser,
   });
 }

@@ -9,17 +9,100 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
+
+const corsOptions = cors({
+  origin: "*",
+  credentials: true,
+})
+
+app.use(corsOptions);
+
+const server = require('http').createServer(app, {
+  cors: corsOptions,
+});
+const io = require('socket.io')(server);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    secret: "dsof82445qs*2E",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-app.use(cors());
+const sessionMiddleware = session({
+  secret: "dsof82445qs*2E",
+  resave: false,
+  saveUninitialized: true,
+});
 
+app.use(sessionMiddleware);
+io.engine.use(sessionMiddleware);
+
+const userToSocketIdMap = {};
+
+io.on("connection", socket => {
+  socket.on("register user", () => {
+    if (!socket.request.session.user) {
+      return;
+    }
+
+    const userId = socket.request.session.user.id;
+    console.log("register user", userId);
+    userToSocketIdMap[String(userId)] = socket.id;
+  });
+
+  socket.on("message", (data) => {
+    const { recipientId, message } = data;
+    if (!recipientId || !message || !socket.request.session.user) {
+      return;
+    }
+
+    const senderId = socket.request.session.user.id;
+
+    const recipientSocketId = userToSocketIdMap[recipientId];
+    const senderSocketId = userToSocketIdMap[senderId];
+
+    // get author info
+    pool.query("SELECT * FROM utilisateur WHERE id = ?", [senderId], (err, rows) => {
+      const messageToSend = {
+        id: uuid.v4(),
+        content: message,
+        date: Date.now(),
+        auteur: {
+          id: rows[0].id,
+          nom: rows[0].nom,
+          prenom: rows[0].prenom,
+          email: rows[0].email,
+          fonction: rows[0].fonction,
+          id_equipe: rows[0].id_equipe,
+        },
+      }
+
+      if (recipientSocketId) {
+        messageToSend.isCurrentUser = false;
+        io.to(recipientSocketId).emit("message", messageToSend);
+      }
+
+      if (senderSocketId) {
+        messageToSend.isCurrentUser = true;
+        io.to(senderSocketId).emit("message", messageToSend);
+      }
+    });
+  });
+
+  socket.on("join room", (room) => {
+    console.log("joined room", room);
+    socket.join(room);
+  })
+
+  socket.on("leave room", (room) => {
+    socket.leave(room);
+  })
+
+  socket.on("room message", (room, msg) => {
+    console.log("room message", room, msg);
+    socket.to(room).emit("room message", socket.id, msg);
+  })
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  })
+});
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -48,198 +131,198 @@ app.get("/api/user", (req, res) => {
 });
 
 app.post("/api/user", (req, res) => {
-    if (!req.session.user) {
-        res.send({ success: false, message: "Non connecté" });
-        return;
+  if (!req.session.user) {
+    res.send({ success: false, message: "Non connecté" });
+    return;
+  }
+
+  const { nom, prenom, email } = req.body;
+
+  if (!nom || !prenom || !email) {
+    res.send({ success: false, message: "Veuillez remplir tous les champs" });
+    return;
+  }
+
+  if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    res.send({ success: false, message: "Email invalide" });
+    return;
+  }
+
+  const id = req.session.user.id;
+
+  pool.query('UPDATE utilisateur SET nom = ?, prenom = ?, email = ? WHERE id = ?', [nom, prenom, email, id], (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      req.session.user.nom = nom;
+      req.session.user.prenom = prenom;
+      req.session.user.email = email;
+      res.send({ success: true, message: "success" });
     }
-
-    const { nom, prenom, email } = req.body;
-
-    if (!nom || !prenom || !email) {
-        res.send({ success: false, message: "Veuillez remplir tous les champs" });
-        return;
-    }
-
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        res.send({ success: false, message: "Email invalide" });
-        return;
-    }
-
-    const id = req.session.user.id;
-
-    pool.query('UPDATE utilisateur SET nom = ?, prenom = ?, email = ? WHERE id = ?', [nom, prenom, email, id], (err, rows) => {
-        if (err) {
-            res.send({ success: false, message: err });
-        } else {
-            req.session.user.nom = nom;
-            req.session.user.prenom = prenom;
-            req.session.user.email = email;
-            res.send({ success: true, message: "success" });
-        }
-    });
+  });
 });
 
 app.post("/api/password", (req, res) => {
-    if (!req.session.user) {
-        res.send({ success: false, message: "Non connecté" });
-        return;
-    }
+  if (!req.session.user) {
+    res.send({ success: false, message: "Non connecté" });
+    return;
+  }
 
-    const { oldPassword, password, confirm } = req.body;
+  const { oldPassword, password, confirm } = req.body;
 
-    if (!oldPassword || !password || !confirm) {
-        res.send({ success: false, message: "Veuillez remplir tous les champs" });
-        return;
-    }
+  if (!oldPassword || !password || !confirm) {
+    res.send({ success: false, message: "Veuillez remplir tous les champs" });
+    return;
+  }
 
-    if (password.length < 8) {
-        res.send({ success: false, message: "Mot de passe trop court" });
-        return;
-    }
+  if (password.length < 8) {
+    res.send({ success: false, message: "Mot de passe trop court" });
+    return;
+  }
 
-    if (password !== confirm) {
-        res.send({ success: false, message: "Les mots de passe ne correspondent pas" });
-        return;
-    }
+  if (password !== confirm) {
+    res.send({ success: false, message: "Les mots de passe ne correspondent pas" });
+    return;
+  }
 
-    const id = req.session.user.id;
+  const id = req.session.user.id;
 
-    pool.query('SELECT * FROM utilisateur WHERE id = ?', [id], (err, rows) => {
-        if (err) {
-            res.send({ success: false, message: err });
-        } else {
-            bcrypt.compare(oldPassword, rows[0].mdp, (err, result) => {
-                if (result) {
-                    bcrypt.hash(password, 10, (err, hash) => {
-                        if (err) {
-                            res.send({ success: false, message: err });
-                        } else {
-                            pool.query('UPDATE utilisateur SET mdp = ? WHERE id = ?', [hash, id], (err, rows) => {
-                                if (err) {
-                                    res.send({ success: false, message: err });
-                                } else {
-                                    res.send({ success: true, message: "success" });
-                                }
-                            });
-                        }
-                    });
+  pool.query('SELECT * FROM utilisateur WHERE id = ?', [id], (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      bcrypt.compare(oldPassword, rows[0].mdp, (err, result) => {
+        if (result) {
+          bcrypt.hash(password, 10, (err, hash) => {
+            if (err) {
+              res.send({ success: false, message: err });
+            } else {
+              pool.query('UPDATE utilisateur SET mdp = ? WHERE id = ?', [hash, id], (err, rows) => {
+                if (err) {
+                  res.send({ success: false, message: err });
                 } else {
-                    res.send({ success: false, message: "Mot de passe incorrect" });
+                  res.send({ success: true, message: "success" });
                 }
-            });
+              });
+            }
+          });
+        } else {
+          res.send({ success: false, message: "Mot de passe incorrect" });
         }
-    });
+      });
+    }
+  });
 });
 
 app.post("/api/commande", (req, res) => {
-    if (!req.session.user) {
-        res.send({ success: false, message: "Non connecté" });
-        return;
-    }
+  if (!req.session.user) {
+    res.send({ success: false, message: "Non connecté" });
+    return;
+  }
 
-    const { produits } = req.body;
+  const { produits } = req.body;
 
-    if (!produits) {
-        res.send({ success: false, message: "Veuillez remplir tous les champs" });
-        return;
-    }
+  if (!produits) {
+    res.send({ success: false, message: "Veuillez remplir tous les champs" });
+    return;
+  }
 
-    const id = uuid.v4();
-    const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const id = uuid.v4();
+  const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    const produitsParsed = JSON.parse(produits);
+  const produitsParsed = JSON.parse(produits);
 
-    pool.query('SELECT * FROM stock', (err, rows) => {
-        if (err) {
-            res.send({ success: false, message: err });
+  pool.query('SELECT * FROM stock', (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+      const stock = rows;
+      let allProductsExist = true;
+      let total = 0;
+      produitsParsed.forEach((produit) => {
+        const product = stock.find((p) => p.id === produit.id);
+        if (!product) {
+          allProductsExist = false;
         } else {
-            const stock = rows;
-            let allProductsExist = true;
-            let total = 0;
-            produitsParsed.forEach((produit) => {
-                const product = stock.find((p) => p.id === produit.id);
-                if (!product) {
-                    allProductsExist = false;
-                } else {
-                    total += product.prix * produit.quantite;
-                }
-            });
-
-            if (!allProductsExist) {
-                res.send({ success: false, message: "Un ou plusieurs produits n'existent pas" });
-                return;
-            }
-
-            pool.query('INSERT INTO commande (id, date, produits, id_utilisateur) VALUES (?, ?, ?, ?)', [id, date, produits, req.session.user.id], (err, rows) => {
-                if (err) {
-                    res.send({ success: false, message: err });
-                }
-
-                res.send({ success: true, message: "success" });
-            });
+          total += product.prix * produit.quantite;
         }
-    });
+      });
+
+      if (!allProductsExist) {
+        res.send({ success: false, message: "Un ou plusieurs produits n'existent pas" });
+        return;
+      }
+
+      pool.query('INSERT INTO commande (id, date, produits, id_utilisateur) VALUES (?, ?, ?, ?)', [id, date, produits, req.session.user.id], (err, rows) => {
+        if (err) {
+          res.send({ success: false, message: err });
+        }
+
+        res.send({ success: true, message: "success" });
+      });
+    }
+  });
 });
 
 app.get("/api/commandes", (req, res) => {
-    if (!req.session.user) {
-        res.send({ success: false, message: "Non connecté" });
+  if (!req.session.user) {
+    res.send({ success: false, message: "Non connecté" });
+  }
+
+  pool.query('SELECT * FROM commande WHERE id_utilisateur = ?', [req.session.user.id], (err, rows) => {
+    if (err) {
+      res.send({ success: false, message: err });
     }
 
-    pool.query('SELECT * FROM commande WHERE id_utilisateur = ?', [req.session.user.id], (err, rows) => {
-        if (err) {
-            res.send({ success: false, message: err });
-        }
+    const commands = rows;
+    pool.query('SELECT * FROM stock', (err, rows) => {
+      if (err) {
+        res.send({ success: false, message: err });
+      }
 
-        const commands = rows;
-        pool.query('SELECT * FROM stock', (err, rows) => {
-            if (err) {
-                res.send({ success: false, message: err });
-            }
-
-            const stock = rows;
-            const commandsWithProducts = commands.map((command) => {
-                const products = JSON.parse(command.produits);
-                const productsWithDetails = products.map((product) => {
-                    const productDetails = stock.find((p) => p.id === product.id);
-                    return {
-                        ...product,
-                        nom: productDetails.nom,
-                        prix: productDetails.prix,
-                        image: productDetails.image,
-                        description: productDetails.description,
-                    };
-                });
-
-                return {
-                    ...command,
-                    produits: productsWithDetails,
-                };
-            });
-
-            res.send({ success: true, commands: commandsWithProducts });
+      const stock = rows;
+      const commandsWithProducts = commands.map((command) => {
+        const products = JSON.parse(command.produits);
+        const productsWithDetails = products.map((product) => {
+          const productDetails = stock.find((p) => p.id === product.id);
+          return {
+            ...product,
+            nom: productDetails.nom,
+            prix: productDetails.prix,
+            image: productDetails.image,
+            description: productDetails.description,
+          };
         });
+
+        return {
+          ...command,
+          produits: productsWithDetails,
+        };
+      });
+
+      res.send({ success: true, commands: commandsWithProducts });
     });
+  });
 });
 
 app.get('/api/articles', (req, res) => {
-    pool.query('SELECT * FROM article', (err, rows) => {
-        if (err) {
-            res.send({ 'success': false, 'message': err });
-        } else {
-            res.send({ 'success': true, 'articles': rows });
-        }
-    });
+  pool.query('SELECT * FROM article', (err, rows) => {
+    if (err) {
+      res.send({ 'success': false, 'message': err });
+    } else {
+      res.send({ 'success': true, 'articles': rows });
+    }
+  });
 });
 
 app.get('/api/articles', (req, res) => {
-    pool.query('SELECT * FROM article', (err, rows) => {
-        if (err) {
-            res.send({ 'success': false, 'message': err });
-        } else {
-            res.send({ 'success': true, 'articles': rows });
-        }
-    });
+  pool.query('SELECT * FROM article', (err, rows) => {
+    if (err) {
+      res.send({ 'success': false, 'message': err });
+    } else {
+      res.send({ 'success': true, 'articles': rows });
+    }
+  });
 });
 
 
@@ -288,7 +371,7 @@ app.post("/api/produits/:id/like", (req, res) => {
     res.send({ success: false, message: "Non connecté" });
     return;
   }
-  
+
   const id = req.params.id;
   pool.query("SELECT * FROM likes WHERE user_id = ? AND product_id = ?", [req.session.user.id, id], (err, rows) => {
     if (err) {
@@ -314,7 +397,7 @@ app.post("/api/produits/:id/dislike", (req, res) => {
     res.send({ success: false, message: "Non connecté" });
     return;
   }
-  
+
   const id = req.params.id;
   pool.query("DELETE FROM likes WHERE user_id = ? AND product_id = ?", [req.session.user.id, id], (err, rows) => {
     if (err) {
@@ -465,6 +548,8 @@ app.post("/api/register", (req, res) => {
                   res.send({ success: false, message: err });
                 } else {
                   const user = rows[0];
+                  // Access-Control-Allow-Credentials: true
+
                   req.session.user = {
                     id: user.id,
                     nom: user.nom,
@@ -475,7 +560,7 @@ app.post("/api/register", (req, res) => {
                   res.send({
                     success: true,
                     message: "User successfully created",
-                  });
+                  })
                 }
               }
             );
@@ -497,7 +582,6 @@ app.get("/api/equipes", (req, res) => {
           res.send({ success: false, message: err });
         } else {
           const players = rows;
-          console.log(players)
           const teamsWithPlayers = teams.map((team) => {
             const playersInTeam = players.filter((player) => player.id_equipe === team.id);
             return {
@@ -513,6 +597,38 @@ app.get("/api/equipes", (req, res) => {
   })
 });
 
-app.listen(3000, () => {
+app.get("/api/private-messages/:userId1/:userId2", async (req, res) => {
+  const userId1 = req.params.userId1;
+  const userId2 = req.params.userId2;
+
+  try {
+    const query = ```
+          SELECT m.* 
+          FROM message AS m
+          JOIN message_prive AS mp ON m.id = mp.id_message
+          WHERE (mp.id_utilisateur1 = ? AND mp.id_utilisateur2 = ?)
+             OR (mp.id_utilisateur1 = ? AND mp.id_utilisateur2 = ?)
+          ORDER BY m.date ASC;;
+    ```;
+
+    const [rows] = await pool
+      .promise()
+      .query(query, [userId1, userId2, userId2, userId1]);
+
+    if (rows.length === 0) {
+      return res.send({
+        success: true,
+        messages: [],
+      });
+    }
+
+    res.send({ success: true, messages: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ success: false, message: "Internal Server Error" });
+  }
+});
+
+server.listen(3000, () => {
   console.log("Server is running on port 3000");
 });

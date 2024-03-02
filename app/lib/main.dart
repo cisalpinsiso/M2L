@@ -1,3 +1,4 @@
+import 'package:app/Requests.dart';
 import 'package:app/pages/Player/Player.dart';
 import 'package:app/pages/Profile/Profile.dart';
 import 'package:app/pages/SplashScreen/SplashScreen.dart';
@@ -9,6 +10,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  await updateHeadersWithCookie();
+  final user = await getUser();
+  if (user != null) {
+    prefs.setString('user', jsonEncode(user));
+  } else {
+    prefs.remove('user');
+    prefs.remove('cookie');
+  }
 
   runApp(MyApp(prefs: prefs));
 }

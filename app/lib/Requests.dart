@@ -26,23 +26,21 @@ Future<bool> login(String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     headers['cookie'] = response.headers['set-cookie']!;
     prefs.setString('cookie', response.headers['set-cookie']!);
+
+    final user = await getUser();
+    prefs.setString('user', jsonEncode(user));
+
     return true;
   } else {
     return false;
   }
 }
 
-Future<bool> getUser() async {
+Future<dynamic> getUser() async {
   final url = Uri.parse('$base_url/user');
-  await updateHeadersWithCookie();
   final response = await http.get(url, headers: headers);
 
   final data = jsonDecode(response.body)['user'];
-  
-  if (data == null) return false;
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('user', jsonEncode(data));
 
   return data;
 }
