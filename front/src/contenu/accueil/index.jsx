@@ -26,7 +26,7 @@ function Accueil(props) {
             Voir les produits <i className="bi bi-arrow-right"></i>
           </Link>
         </div>
-        <img src="src/assets/KAPPA.png" className="" alt="" />
+        <img src="/KAPPA.png" className="" alt="" />
       </div>
       <Carrousel equipes={props.equipes} />
       <Article articles={props.articles} />

@@ -122,16 +122,7 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   database: "M2L",
-
-  password: "root",
-  port: 3307,
-  waitForConnections: true,
-  connectionLimit: 10,
-  maxIdle: 10,
-  idleTimeout: 60000,
-  queueLimit: 0,
-  enableKeepAlive: true,
-  keepAliveInitialDelay: 0,
+  password: "",
 });
 
 app.get("/api", (req, res) => {
@@ -750,6 +741,8 @@ app.get("/api/private-messages/:userId1/:userId2", async (req, res) => {
     res.status(500).send({ success: false, message: "Internal Server Error" });
   }
 });
+
+app.use(express.static("dist"));
 
 server.listen(3003, () => {
   console.log("Server is running on port 3003");

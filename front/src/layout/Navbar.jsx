@@ -95,7 +95,7 @@ function Navbar(props) {
       <div class="overflow-hidden nav-wrapper" style={props.navbarOpen ? { maxWidth: "300px" } : { maxWidth: 0 }} >
         <nav>
             <div className="topnav">
-              <img src="src/assets/Logo2.png" className="" alt="" />
+              <img src="/Logo2.png" className="" alt="" />
 
               <NavLink to="/">
                 <button className="btn">
