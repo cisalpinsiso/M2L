@@ -751,6 +751,6 @@ app.get("/api/private-messages/:userId1/:userId2", async (req, res) => {
   }
 });
 
-server.listen(3000, () => {
+server.listen(3003, () => {
   console.log("Server is running on port 3000");
 });
