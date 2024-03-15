@@ -7,6 +7,7 @@ import Compte from "./compte";
 import Matchs from "./matchs";
 import ArticleUrl from "./accueil/articleUrl/articleurl";
 import ProduitPage from "./boutique/produitPage";
+import api from "../api";
 
 function Contenu(props) {
   const [panier, setPanier] = useState([]);
@@ -26,9 +27,7 @@ function Contenu(props) {
   };
 
   const retirerPanier = (productToRemove) => {
-    const existingProduct = panier.find(
-      (p) => p.id === productToRemove.id
-    );
+    const existingProduct = panier.find((p) => p.id === productToRemove.id);
 
     if (existingProduct) {
       if (existingProduct.quantity > 1) {
@@ -37,9 +36,7 @@ function Contenu(props) {
         );
         setPanier(newPanier);
       } else {
-        const newPanier = panier.filter(
-          (p) => p.id !== productToRemove.id
-        );
+        const newPanier = panier.filter((p) => p.id !== productToRemove.id);
         setPanier(newPanier);
       }
     }
@@ -48,9 +45,7 @@ function Contenu(props) {
   const commander = () => {
     api
       .newCommande(
-        JSON.stringify(
-          panier.map((p) => ({ id: p.id, quantity: p.quantity }))
-        )
+        JSON.stringify(panier.map((p) => ({ id: p.id, quantity: p.quantity })))
       )
       .then((response) => {
         if (response.data) {
@@ -59,20 +54,66 @@ function Contenu(props) {
       });
   };
 
-  const prixTotal = panier && panier.reduce(
-    (acc, product) => acc + product.prix * product.quantity,
-    0
-  );
+  const prixTotal =
+    panier &&
+    panier.reduce((acc, product) => acc + product.prix * product.quantity, 0);
 
   return (
     <div className="contenu">
       <Routes>
-        <Route path="/" element={<Accueil equipes={props.equipes} articles={props.articles} />} />
-        <Route path="/boutique" element={<Boutique user={props.user} panier={panier} setPanier={setPanier} produits={props.produits} ajoutPanier={ajoutPanier} retirerPanier={retirerPanier} setShowCart={setShowCart} showCart={showCart} />} />
-        <Route path="/compte" element={props.user ? <Compte user={props.user} panier={panier} setPanier={setPanier} /> : (props.user === null ? <Navigate to="/" /> : <></>)} />
+        <Route
+          path="/"
+          element={
+            <Accueil equipes={props.equipes} articles={props.articles} />
+          }
+        />
+        <Route
+          path="/boutique"
+          element={
+            <Boutique
+              user={props.user}
+              panier={panier}
+              setPanier={setPanier}
+              produits={props.produits}
+              ajoutPanier={ajoutPanier}
+              retirerPanier={retirerPanier}
+              setShowCart={setShowCart}
+              showCart={showCart}
+            />
+          }
+        />
+        <Route
+          path="/compte"
+          element={
+            props.user ? (
+              <Compte user={props.user} panier={panier} setPanier={setPanier} />
+            ) : props.user === null ? (
+              <Navigate to="/" />
+            ) : (
+              <></>
+            )
+          }
+        />
         <Route path="/matchs" element={<Matchs equipes={props.equipes} />} />
-        <Route path="/article/:id" element={<ArticleUrl articles={props.articles}/>} />
-        <Route path="/produit/:id" element={<ProduitPage produits={props.produits} panier={panier} setPanier={setPanier} ajoutPanier={ajoutPanier} retirerPanier={retirerPanier} setShowCart={setShowCart} showCart={showCart} user={props.user} /> } />
+        <Route
+          path="/article/:id"
+          element={<ArticleUrl articles={props.articles} />}
+        />
+        <Route
+          path="/produit/:id"
+          element={
+            <ProduitPage
+              produits={props.produits}
+              panier={panier}
+              setPanier={setPanier}
+              ajoutPanier={ajoutPanier}
+              retirerPanier={retirerPanier}
+              setShowCart={setShowCart}
+              showCart={showCart}
+              user={props.user}
+            />
+          }
+        />
       </Routes>
       <div
         className={`offcanvas-backdrop fade ${showCart ? "show" : "pe-none"}`}
