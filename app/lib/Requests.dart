@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 Map<String, String> headers = {};
-String base_url = 'http://localhost:3000/api';
+String base_url = 'https://m2l.monbts.fr/api';
 
 Future<void> updateHeadersWithCookie() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
