@@ -69,8 +69,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   }
 
   void _initializeSocket() async {
-    print(headers);
-    socket = IO.io('wss://m2l.monbts.fr/api', <String, dynamic>{
+    socket = IO.io('https://m2l.monbts.fr', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
       'extraHeaders': headers,

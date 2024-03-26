@@ -93,7 +93,7 @@ class Chat {
   final int id;
   final String nom;
   final String? lastMessage;
-  final int? lastMessageDate;
+  final String? lastMessageDate;
   final String? logo;
 
   Chat({
