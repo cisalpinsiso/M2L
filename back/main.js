@@ -76,10 +76,10 @@ io.on("connection", (socket) => {
         };
 
         if (senderId) {
-          messageToSend.isCurrentUser = true;
+          messageToSend.isCurrentUser = true; // Explicitly for the sender
           io.to(senderSocketId).emit("message", messageToSend);
         }
-
+        
         if (isGroup) {
           pool.query(
             "SELECT * FROM utilisateur WHERE id_equipe = ?",
@@ -89,6 +89,7 @@ io.on("connection", (socket) => {
                 if (user.id !== senderId) {
                   const recipientSocketId = userToSocketIdMap[user.id];
                   if (recipientSocketId) {
+                    messageToSend.isCurrentUser = false;
                     io.to(recipientSocketId).emit("message", messageToSend);
                   }
                 }
@@ -98,6 +99,11 @@ io.on("connection", (socket) => {
         } else {
           const recipientSocketId = userToSocketIdMap[recipientId];
           if (recipientSocketId) {
+            if (recipientId === senderId) {
+              messageToSend.isCurrentUser = true;
+            } else {
+              messageToSend.isCurrentUser = false;
+            }
             io.to(recipientSocketId).emit("message", messageToSend);
           }
         }
